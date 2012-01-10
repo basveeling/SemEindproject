@@ -10,6 +10,7 @@ package model;
 public class PartBin {
 	
 	private int number;
+	private Part part;
 
 	/**
 	 * @param number
@@ -33,6 +34,13 @@ public class PartBin {
 		this.number = number;
 	}
 	
+	/**
+	 * @return the part
+	 */
+	public Part getPart() {
+		return part;
+	}
+
 	/**
 	 * @return if PartBin is Empty or not
 	 */

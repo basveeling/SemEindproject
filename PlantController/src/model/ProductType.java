@@ -13,14 +13,33 @@ import model.relations.*;
  */
 public class ProductType extends Part {
 	private int assemblyTime;
-	private ArrayList<ProductTypeOrder> madeFrom;
 	
+	private ArrayList<ProductTypeOrder> orders;
+	private ArrayList<ProductPart> madeFrom;
 	/**
 	 * @param inStock
 	 */
 	public ProductType(int inStock, int assemblyTime) {
 		super(inStock);
 		this.assemblyTime = assemblyTime;
+	}
+
+	/**
+	 * @param e
+	 * @return
+	 * @see java.util.ArrayList#add(java.lang.Object)
+	 */
+	public boolean add(ProductPart e) {
+		return madeFrom.add(e);
+	}
+
+	/**
+	 * @param o
+	 * @return
+	 * @see java.util.ArrayList#remove(java.lang.Object)
+	 */
+	public boolean remove(Object o) {
+		return madeFrom.remove(o);
 	}
 
 	public int getAssemblyTime() {
@@ -32,11 +51,11 @@ public class ProductType extends Part {
 	}
 	
 	public boolean add(ProductTypeOrder e) {
-		return madeFrom.add(e);
+		return orders.add(e);
 	}
 
 	public boolean remove(ProductTypeOrder arg0) {
-		return madeFrom.remove(arg0);
+		return orders.remove(arg0);
 	}
 	
 	

@@ -3,6 +3,10 @@
  */
 package model;
 
+import java.util.ArrayList;
+
+import model.relations.*;
+
 /**
  * @author Patrick
  *
@@ -10,6 +14,8 @@ package model;
 public class Part {
 	
 	private int inStock;
+	private PartBin partBin;
+	private ArrayList<ProductPart> productType;
 	
 	/**
 	 * @param inStock
@@ -31,6 +37,38 @@ public class Part {
 	 */
 	public void setInStock(int inStock) {
 		this.inStock = inStock;
+	}
+	
+	/**
+	 * @return the partBin
+	 */
+	public PartBin getPartBin() {
+		return partBin;
+	}
+
+	/**
+	 * @param partBin the partBin to set
+	 */
+	public void setPartBin(PartBin partBin) {
+		this.partBin = partBin;
+	}
+
+	/**
+	 * @param arg0
+	 * @return
+	 * @see java.util.ArrayList#add(java.lang.Object)
+	 */
+	public boolean add(ProductPart arg0) {
+		return productType.add(arg0);
+	}
+
+	/**
+	 * @param arg0
+	 * @return
+	 * @see java.util.ArrayList#remove(java.lang.Object)
+	 */
+	public boolean remove(Object arg0) {
+		return productType.remove(arg0);
 	}
 	
 	
