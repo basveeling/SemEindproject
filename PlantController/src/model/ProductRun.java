@@ -12,7 +12,8 @@ public class ProductRun {
 	private int length;
 	private int unitsToProduce;
 	private int state;
-	private AssemblyLine assemblyLine;
+	private AssemblyLine runsOnAssemblyLine;
+	private ProductType buildsProduct;
 	
 	
 	
@@ -21,26 +22,48 @@ public class ProductRun {
 	 * @param length
 	 * @param unitsToProduce
 	 * @param state
-	 * @param assemblyLine
+	 * @param runsOnAssemblyLine
+	 * @param buildsProduct
 	 */
 	public ProductRun(int startTime, int length, int unitsToProduce, int state,
-			AssemblyLine assemblyLine) {
+			AssemblyLine runsOnAssemblyLine, ProductType buildsProduct) {
 		super();
 		this.startTime = startTime;
 		this.length = length;
 		this.unitsToProduce = unitsToProduce;
 		this.state = state;
-		this.assemblyLine = assemblyLine;
+		this.runsOnAssemblyLine = runsOnAssemblyLine;
+		this.buildsProduct = buildsProduct;
 	}
-	
-	
+
+
+	public AssemblyLine getRunsOnAssemblyLine() {
+		return runsOnAssemblyLine;
+	}
+
+
+	public void setRunsOnAssemblyLine(AssemblyLine runsOnAssemblyLine) {
+		this.runsOnAssemblyLine = runsOnAssemblyLine;
+	}
+
+
+	public ProductType getBuildsProduct() {
+		return buildsProduct;
+	}
+
+
+	public void setBuildsProduct(ProductType buildsProduct) {
+		this.buildsProduct = buildsProduct;
+	}
+
+
 	public AssemblyLine getAssemblyLine() {
-		return assemblyLine;
+		return runsOnAssemblyLine;
 	}
 
 
 	public void setAssemblyLine(AssemblyLine assemblyLine) {
-		this.assemblyLine = assemblyLine;
+		this.runsOnAssemblyLine = assemblyLine;
 	}
 
 

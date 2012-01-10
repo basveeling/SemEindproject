@@ -3,6 +3,10 @@
  */
 package model;
 
+import java.util.ArrayList;
+
+import model.relations.*;
+
 /**
  * @author Patrick
  *
@@ -10,7 +14,7 @@ package model;
 public class Order {
 	private int state;
 	private String OrderId;
-	
+	private ArrayList<ProductTypeOrder> usedIn;
 	
 	/**
 	 * @param state
@@ -26,4 +30,13 @@ public class Order {
 		
 	}
 
+	public boolean add(ProductTypeOrder e) {
+		return usedIn.add(e);
+	}
+
+	public boolean remove(Object o) {
+		return usedIn.remove(o);
+	}
+	
+	
 }
