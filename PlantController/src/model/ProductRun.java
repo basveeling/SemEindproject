@@ -35,6 +35,9 @@ public class ProductRun {
 		this.runsOnAssemblyLine = runsOnAssemblyLine;
 		this.buildsProduct = buildsProduct;
 	}
+	public ProductRun() {
+		
+	}
 
 
 	public AssemblyLine getRunsOnAssemblyLine() {

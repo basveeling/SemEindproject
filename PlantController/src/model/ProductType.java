@@ -14,13 +14,13 @@ import model.relations.*;
 public class ProductType extends Part {
 	private int assemblyTime;
 	
-	private ArrayList<ProductTypeOrder> orders;
-	private ArrayList<ProductPart> madeFrom;
+	private ArrayList<ProductTypeOrder> orders = new ArrayList<ProductTypeOrder>();
+	private ArrayList<ProductPart> madeFrom = new ArrayList<ProductPart>();
 	/**
 	 * @param inStock
 	 */
-	public ProductType(int inStock, int assemblyTime) {
-		super(inStock);
+	public ProductType(String name, int inStock, int assemblyTime) {
+		super(name, inStock);
 		this.assemblyTime = assemblyTime;
 	}
 
@@ -31,6 +31,11 @@ public class ProductType extends Part {
 	 */
 	public boolean add(ProductPart e) {
 		return madeFrom.add(e);
+	}
+	
+	public void addProductPart(Part part, int amount) {
+		ProductPart pp = new ProductPart(this, part, amount);
+		this.add(pp);
 	}
 
 	/**
@@ -58,6 +63,28 @@ public class ProductType extends Part {
 		return orders.remove(arg0);
 	}
 	
+	public int amountForPart(Part part) {
+		int amount = 0;
+		for (ProductPart productPart : madeFrom) {
+			if(productPart.getPart().equals(part)) {
+				amount += productPart.getAmount();
+			}
+		}
+		return amount;
+	}
 	
+	public int estimatedAssemblyTimeForAmount(int amount) {
+		return assemblyTime * amount;
+	}
+	
+	@Override
+	public String toString() {
+		String result = "ProductType(" + getName() + ") parts:[\n";
+		for (ProductPart productPart : madeFrom) {
+			result += "\t" + productPart.getPart() + "\n";
+		}
+		result += "]\n";
+		return result;
+	}
 	
 }

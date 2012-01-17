@@ -37,5 +37,19 @@ public class ProductPart {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	public ProductType getProductType() {
+		return productType;
+	}
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+	public Part getPart() {
+		return part;
+	}
+	public void setPart(Part part) {
+		this.part = part;
+	}
+	
+	
 	
 }
