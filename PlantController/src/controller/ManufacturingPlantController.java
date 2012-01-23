@@ -69,4 +69,31 @@ public class ManufacturingPlantController {
 		}
 		return result;
 	}
+
+	public static String overviewOfOrders(ManufacturingPlant plant) {
+		String result = "==Orders:==\n";
+		ArrayList<Order> orders = plant.getOrders();
+		for (Order order : orders) {
+			result += "#" + (orders.indexOf(order) + 1) + " " + order;
+		}
+		return result;
+	}
+
+	public static String overviewOfProductRuns(ManufacturingPlant plant) {
+		String result = "==ProductRuns:==\n";
+		ArrayList<ProductRun> productRuns = plant.getProductRuns();
+		for (ProductRun productRun : productRuns) {
+			result += "#" + (productRuns.indexOf(productRun) + 1) + " " + productRun;
+		}
+		return result;
+	}
+	public static String overviewOfUnfinishedProductRuns(ManufacturingPlant plant) {
+		String result = "==ProductRuns:==\n";
+		ArrayList<ProductRun> productRuns = plant.getProductRuns();
+		for (ProductRun productRun : productRuns) {
+			if(productRun.getFinished() == 0)
+				result += "#" + (productRuns.indexOf(productRun) + 1) + " " + productRun;
+		}
+		return result;
+	}
 }

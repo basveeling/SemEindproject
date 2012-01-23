@@ -11,13 +11,15 @@ public class PartBin {
 	
 	private int number;
 	private Part part;
+	private int containsAmount;
 
 	/**
 	 * @param number
 	 */
-	public PartBin(int number) {
+	public PartBin(int number, int containsAmount) {
 		super();
 		this.number = number;
+		this.containsAmount = containsAmount;
 	}
 
 	/**
@@ -34,6 +36,33 @@ public class PartBin {
 		this.number = number;
 	}
 	
+	
+	
+	public int getContainsAmount() {
+		return containsAmount;
+	}
+
+	public void setContainsAmount(int containsAmount) {
+		this.containsAmount = containsAmount;
+	}
+	
+	public void takeOnePart() {
+		takePart(1);
+	}
+	
+	public void addPart(int amount) {
+		this.containsAmount = this.containsAmount + amount;
+	}
+	
+	public void addOnePart() {
+		addPart(1);
+	}
+	
+	public void takePart(int amount) {
+		this.containsAmount = this.containsAmount - amount;
+	}
+
+
 	/**
 	 * @return the part
 	 */

@@ -32,13 +32,15 @@ public class ManufacturingPlantTUI {
 		this.plant = new ManufacturingPlant("UseCase Industries");
 
 		Fixtures.addFixtures(plant);
-
+		plant.start();
 		commands.add(new HelpCommand());
 		commands.add(new ExitCommand());
 		commands.add(new PrintInventoryCommand());
 		commands.add(new PlaceOrderCommand());
 		commands.add(new CreateProductRunCommand());
 		commands.add(new OrderOverviewCommand());
+		commands.add(new FinishOrderCommand());
+		commands.add(new FinishProductRunCommand());
 		commands.get(0).execute(0 ,null, null);
 
 	}
@@ -49,7 +51,7 @@ public class ManufacturingPlantTUI {
 		}
 
 		public void execute(int state, String par1, String par2) {
-			System.out.println("ManufacturingPlant " + plant.getName());
+			System.out.println("ManufacturingPlant " + plant.getPlantName());
 			System.out.println("Command's:");
 
 			for (int i = 0; i < commands.size(); i++) {
@@ -120,16 +122,19 @@ public class ManufacturingPlantTUI {
 		public void execute(int state, String par1, String par2) {
 			ProductRun productRun = new ProductRun();
 			int productIndex = 0;
-			while(productIndex == 0 && productIndex <= plant.getProductTypes().size()) {
+			while(productIndex == 0) {
 				System.out.println("ProductType to produce: ");
 				System.out.println(ManufacturingPlantController.overviewOfProductsProduce(plant));
 				productIndex = leesInt("Product number:");
-				if(productIndex > 0) {
+				if(productIndex > 0  && productIndex <= plant.getProductTypes().size()) {
 					productRun.setBuildsProduct(plant.getProductTypes().get(productIndex -1));
 					
+				} else {
+					productIndex = 0;
 				}
 			}
 			int amount = leesInt("Units to produce:");
+			productRun.setUnitsToProduce(amount);
 			System.out.println("Estimated assemblytime is " + productRun.getBuildsProduct().estimatedAssemblyTimeForAmount(amount));
 			
 			int assemblyLineIndex = 0;
@@ -139,13 +144,15 @@ public class ManufacturingPlantTUI {
 				assemblyLineIndex = leesInt("AssemblyLine:");
 				if(assemblyLineIndex > 0 && assemblyLineIndex <= plant.getAssemblyLines().size()) {
 					productRun.setAssemblyLine(plant.getAssemblyLines().get(assemblyLineIndex -1));
-					
+				} else {
+					assemblyLineIndex = 0;
 				}
 			}
 			System.out.println("ProductRun created: " + productRun);
+			plant.addProductRun(productRun);
 		}
 	}
-	
+
 	public class OrderOverviewCommand extends Command {
 		public OrderOverviewCommand() {
 			super('o', 0, "Overview of orders");
@@ -153,11 +160,73 @@ public class ManufacturingPlantTUI {
 		
 		public void execute(int state, String par1, String par2) {
 			System.out.print("Order overview:");
-			for(int i = 0; i < plant.getOrders().size(); i++) {
-				System.out.print("\n" + plant.getOrders().get(i));
+			System.out.println(ManufacturingPlantController.overviewOfOrders(plant));
+		}
+	}
+	
+	public class FinishOrderCommand extends Command {
+		public FinishOrderCommand() {
+			super('f', 0, "set an order as finished");
+		}
+		
+		public void execute(int state, String par1, String par2) {
+			int orderIndex = 0;
+			Order order = null;
+			while(orderIndex == 0) {
+				//TODO: add check
+				System.out.println("Choose an order: ");
+				System.out.println(ManufacturingPlantController.overviewOfOrders(plant));
+				orderIndex = leesInt("Select order #:");
+				if(orderIndex > 0 && orderIndex <= plant.getOrders().size()) {
+					 order = plant.getOrders().get(orderIndex - 1);
+				} else {
+					orderIndex = 0;
+				}
+			}
+			//TODO: dit naar order verplaatsen
+			Product tempProduct;
+			for (ProductTypeOrder pto : order.getProductTypes()) {
+				for(int i = 0; i < pto.getAmount(); i++) {
+					tempProduct = plant.getFreeProductOfType(pto.getProductType());
+					tempProduct.setSoldWithOrder(order);
+					pto.getProductType().getPartBin().takeOnePart();
+				}
 			}
 		}
 	}
+	
+	public class FinishProductRunCommand extends Command {
+		public FinishProductRunCommand() {
+			super('a', 0, "Set a productrun as finished");
+		}
+		
+		public void execute(int state, String par1, String par2) {
+			int productRunIndex = 0;
+			ProductRun productRun = null;
+			while(productRunIndex == 0) {
+				//TODO: add check
+				System.out.println("Choose an product run: ");
+				System.out.println(ManufacturingPlantController.overviewOfUnfinishedProductRuns(plant));
+				productRunIndex = leesInt("Select productrun #:");
+				if(productRunIndex > 0 && productRunIndex <= plant.getProductRuns().size()) {
+					productRun = plant.getProductRuns().get(productRunIndex - 1);
+				} else {
+					productRunIndex = 0;
+				}
+			}
+			int serialnumber;
+			serialnumber = leesInt("Choose a starting serialnumber for " + productRun.getBuildsProduct().getName() + ":");
+			Product tempProduct;
+			for(int i = 0; i < productRun.getUnitsToProduce(); i++) {
+				tempProduct = new Product((serialnumber + i), productRun.getBuildsProduct(), productRun, null);
+				plant.addProduct(tempProduct);
+				productRun.addProduct(tempProduct);
+			}
+			productRun.setFinished(1);
+		}
+	}
+
+
 	
 	
 

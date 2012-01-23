@@ -13,40 +13,25 @@ import model.relations.*;
  */
 public class Part {
 	private String name;
-	private int inStock;
 	private PartBin partBin;
-	private ArrayList<ProductPart> productType;
-	
-	/**
-	 * @param inStock
-	 */
-	public Part(String name, int inStock) {
-		this.name = name;
-		this.inStock = inStock;
-	}
+	private ArrayList<AssemblyStep> productType;
 	
 	/**
 	 * @param inStock
 	 */
 	public Part(String name) {
 		this.name = name;
-		this.inStock = 0;
 	}
+	
 
 	/**
 	 * @return the inStock
 	 */
 	public int getInStock() {
-		return inStock;
+//		return inStock; 
+		return partBin.getContainsAmount(); //halen uit o
 	}
 
-	/**
-	 * @param inStock the inStock to set
-	 */
-	public void setInStock(int inStock) {
-		this.inStock = inStock;
-	}
-	
 	/**
 	 * @return the partBin
 	 */
@@ -59,6 +44,7 @@ public class Part {
 	 */
 	public void setPartBin(PartBin partBin) {
 		this.partBin = partBin;
+		partBin.setPart(this);
 	}
 
 	/**
@@ -66,7 +52,7 @@ public class Part {
 	 * @return
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	public boolean add(ProductPart arg0) {
+	public boolean add(AssemblyStep arg0) {
 		return productType.add(arg0);
 	}
 

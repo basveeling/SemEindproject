@@ -8,10 +8,10 @@ import java.util.Iterator;
 
 /**
  * @author bas
- *
+ * 
  */
-public class ManufacturingPlant {
-	private String name;
+public class ManufacturingPlant extends Thread {
+	private String plantName;
 	private ArrayList<Part> parts = new ArrayList<Part>();
 	private ArrayList<ProductType> productTypes = new ArrayList<ProductType>();
 	private ArrayList<ProductRun> productRuns = new ArrayList<ProductRun>();
@@ -19,22 +19,31 @@ public class ManufacturingPlant {
 	private ArrayList<Product> products = new ArrayList<Product>();
 	private ArrayList<Order> orders = new ArrayList<Order>();
 	private ArrayList<AssemblyLine> assemblyLines = new ArrayList<AssemblyLine>();
-	
+
 	public ManufacturingPlant(String name) {
 		super();
-		this.name = name;
+		this.plantName = name;
 	}
 
-	public String getName() {
-		return name;
+	public String getPlantName() {
+		return plantName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPlantName(String name) {
+		this.plantName = name;
 	}
 
 	public boolean addOrder(Order e) {
 		return orders.add(e);
+	}
+
+	public boolean addProduct(Product e) {
+		return products.add(e);
+	}
+
+	public boolean addProductRun(ProductRun e) {
+		e.getAssemblyLine().addProductRun(e);
+		return productRuns.add(e);
 	}
 
 	public Iterator<Order> ordersIterator() {
@@ -56,9 +65,18 @@ public class ManufacturingPlant {
 	public boolean addAssemblyLine(AssemblyLine e) {
 		return assemblyLines.add(e);
 	}
-	
+
 	public boolean addPart(Part e) {
 		return parts.add(e);
+	}
+
+	public Product getFreeProductOfType(ProductType productType) {
+		for (Product product : products) {
+			if (product.getSoldWithOrder() == null) {
+				return product;
+			}
+		}
+		return null;
 	}
 
 	public Iterator<ProductType> productTypesIterator() {
@@ -92,8 +110,13 @@ public class ManufacturingPlant {
 	public ArrayList<Order> getOrders() {
 		return orders;
 	}
-	
-	
-	
+
+	@Override
+	public void run() {
+		for (AssemblyLine assemblyLine : assemblyLines) {
+			assemblyLine.start();
+		}
+		super.run();
+	}
+
 }
-		

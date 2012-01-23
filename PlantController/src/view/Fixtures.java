@@ -13,8 +13,24 @@ public class Fixtures {
 	public static ManufacturingPlant plant;
 	public static ProductType muis;
 	public static ProductType muissensor;
+	
+	public static PartBin bin1;
+	public static PartBin bin2;
+	public static PartBin bin3;
+	public static PartBin bin4;
+	public static PartBin bin5;
+	public static PartBin bin6;
+	public static PartBin bin7;
+	public static PartBin bin8;
+	public static PartBin bin9;
+	public static PartBin bin10;
+	public static PartBin bin11;
+	public static PartBin bin12;
+	public static PartBin bin13;
+	public static PartBin bin14;
+	public static PartBin bin15;
+	
 	public static Part muiswiel;
-
 	public static Part lichtsensor;
 	public static Part laser;
 	public static Part knop;
@@ -32,33 +48,49 @@ public class Fixtures {
 	public static AssemblyLine line4;
 	
 	public static void addFixtures(ManufacturingPlant newPlant) {
-		
-		
+		bin1 = new PartBin(1,100);
+		bin2 = new PartBin(2,100);
+		bin3 = new PartBin(3,100);
+		bin4 = new PartBin(4,100);
+		bin5 = new PartBin(5,100);
+		bin6 = new PartBin(6,100);
+		bin7 = new PartBin(7,100);
+		bin8 = new PartBin(8,100);
+		bin9 = new PartBin(9,0);
+		bin10 = new PartBin(10,0);
 		
 		muiswiel = new Part("Muiswiel");
+		muiswiel.setPartBin(bin1);
 		usbsnoer = new Part("Usbsnoer");
+		usbsnoer.setPartBin(bin2);
 		lichtsensor = new Part("Lichtsensor");
+		lichtsensor.setPartBin(bin3);
 		laser = new Part("SensorLaser");
+		laser.setPartBin(bin4);
 		knop = new Part("Klik knopje");
+		knop.setPartBin(bin5);
 
 		stekkersnoer = new Part("Stekkersnoer");
+		stekkersnoer.setPartBin(bin6);
 		electrospoel = new Part("Electrospoel");
+		electrospoel.setPartBin(bin7);
 		
-
-
-		muissensor = new ProductType("Muissensor" , 0, 10);
-		muissensor.addProductPart(lichtsensor, 1);
-		muissensor.addProductPart(laser, 1);
+		muissensor = new ProductType("Muissensor");
+		muissensor.setPartBin(bin8);
+		muissensor.addAssemblyStep(lichtsensor, 1, 1);
+		muissensor.addAssemblyStep(laser, 1, 1);
 		
-		muis = new ProductType("Laptop Muis", 0, 10);
-		muis.addProductPart(muissensor, 2);
-		muis.addProductPart(muiswiel, 1);
-		muis.addProductPart(usbsnoer, 1);
-		muis.addProductPart(knop, 3);
+		muis = new ProductType("Laptop Muis");
+		muis.setPartBin(bin9);
+		muis.addAssemblyStep(muissensor, 2, 1);
+		muis.addAssemblyStep(muiswiel, 1, 1);
+		muis.addAssemblyStep(usbsnoer, 1, 1);
+		muis.addAssemblyStep(knop, 3, 1);
 		
-		oplader = new ProductType("Oplader", 0, 10);
-		oplader.addProductPart(stekkersnoer, 1);
-		oplader.addProductPart(electrospoel, 2);
+		oplader = new ProductType("Oplader");
+		oplader.setPartBin(bin10);
+		oplader.addAssemblyStep(stekkersnoer, 1, 1);
+		oplader.addAssemblyStep(electrospoel, 2, 1);
 		
 		order1 = new Order(0, "O1");
 		order1.addProductTypeOrder(muis, 100);
@@ -76,7 +108,6 @@ public class Fixtures {
 		line4 = new AssemblyLine(4);
 		
 		plant = newPlant;
-//		plant.addPart(muissensor);
 		plant.addPart(muiswiel);
 		plant.addPart(usbsnoer);
 		plant.addPart(knop);
@@ -92,11 +123,19 @@ public class Fixtures {
 		plant.addOrder(order2);
 		plant.addOrder(order3);
 		plant.addAssemblyLine(line1);
+		for (int i = 0; i < 20; i++) {
+			line1.addRobot();
+		}
 		plant.addAssemblyLine(line2);
-		plant.addAssemblyLine(line3);
-		plant.addAssemblyLine(line4);
-		
-		
+		for (int i = 0; i < 10; i++) {
+			line2.addRobot();
+		}
+		plant.addAssemblyLine(line3);for (int i = 0; i < 5; i++) {
+			line2.addRobot();
+		}
+		plant.addAssemblyLine(line4);for (int i = 0; i < 1; i++) {
+			line2.addRobot();
+		}
 	}
 	
 	

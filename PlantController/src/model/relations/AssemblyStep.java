@@ -6,11 +6,13 @@ import model.*;
  * @author Patrick
  *
  */
-public class ProductPart {
+public class AssemblyStep {
 	
 	private ProductType productType;
 	private Part part;
 	private int amount;
+	private int assemblyTime;
+	
 	
 	
 	
@@ -18,12 +20,15 @@ public class ProductPart {
 	 * @param productType
 	 * @param part
 	 * @param amount
+	 * @param assemblyTime
 	 */
-	public ProductPart(ProductType productType, Part part, int amount) {
+	public AssemblyStep(ProductType productType, Part part, int amount,
+			int assemblyTime) {
 		super();
 		this.productType = productType;
 		this.part = part;
 		this.amount = amount;
+		this.assemblyTime = assemblyTime;
 	}
 	/**
 	 * @return the amount
@@ -50,6 +55,15 @@ public class ProductPart {
 		this.part = part;
 	}
 	
-	
+	public void performStep() {
+		part.getPartBin().takePart(amount);
+		System.out.println("Robot performing assemblyStep [adding part " + part.getName() + "]");
+		try {
+			Thread.sleep(assemblyTime * 1000);//000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //Sleep for the required amount
+	}
 	
 }

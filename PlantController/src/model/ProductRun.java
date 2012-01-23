@@ -3,17 +3,23 @@
  */
 package model;
 
+import java.util.ArrayList;
+
+import model.relations.AssemblyStep;
+import model.relations.ProductTypeOrder;
+
 /**
  * @author bas
  *
  */
-public class ProductRun {
+public class ProductRun{
 	private int startTime;
 	private int length;
 	private int unitsToProduce;
-	private int state;
+	private int finished;
 	private AssemblyLine runsOnAssemblyLine;
 	private ProductType buildsProduct;
+	private ArrayList<Product> producedProducts = new ArrayList<Product>();
 	
 	
 	
@@ -21,17 +27,17 @@ public class ProductRun {
 	 * @param startTime
 	 * @param length
 	 * @param unitsToProduce
-	 * @param state
+	 * @param finished
 	 * @param runsOnAssemblyLine
 	 * @param buildsProduct
 	 */
-	public ProductRun(int startTime, int length, int unitsToProduce, int state,
+	public ProductRun(int startTime, int length, int unitsToProduce, int finished,
 			AssemblyLine runsOnAssemblyLine, ProductType buildsProduct) {
 		super();
 		this.startTime = startTime;
 		this.length = length;
 		this.unitsToProduce = unitsToProduce;
-		this.state = state;
+		this.finished = finished;
 		this.runsOnAssemblyLine = runsOnAssemblyLine;
 		this.buildsProduct = buildsProduct;
 	}
@@ -49,7 +55,7 @@ public class ProductRun {
 		this.runsOnAssemblyLine = runsOnAssemblyLine;
 	}
 
-
+	
 	public ProductType getBuildsProduct() {
 		return buildsProduct;
 	}
@@ -88,13 +94,18 @@ public class ProductRun {
 	public void setUnitsToProduce(int unitsToProduce) {
 		this.unitsToProduce = unitsToProduce;
 	}
-	public int getState() {
-		return state;
+	public int getFinished() {
+		return finished;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setFinished(int finished) {
+		this.finished = finished;
 	}
-	
+	public ArrayList<Product> getProducedProducts() {
+		return producedProducts;
+	}
+	public boolean addProduct(Product e) {
+		return producedProducts.add(e);
+	}
 	
 	
 }

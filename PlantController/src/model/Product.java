@@ -8,7 +8,7 @@ package model;
  *
  */
 public class Product {
-	private String serialNumber;
+	private int serialNumber;
 	private ProductType type;
 	private ProductRun buildIn;
 	private Order soldWithOrder;
@@ -22,7 +22,7 @@ public class Product {
 	 * @param buildIn
 	 * @param soldWithOrder
 	 */
-	public Product(String serialNumber, ProductType type, ProductRun buildIn,
+	public Product(int serialNumber, ProductType type, ProductRun buildIn,
 			Order soldWithOrder) {
 		super();
 		this.serialNumber = serialNumber;
@@ -39,11 +39,11 @@ public class Product {
 		this.buildIn = buildIn;
 	}
 
-	public String getSerialNumber() {
+	public int getSerialNumber() {
 		return serialNumber;
 	}
 
-	public void setSerialNumber(String serialNumber) {
+	public void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
@@ -60,6 +60,7 @@ public class Product {
 	}
 
 	public void setSoldWithOrder(Order soldWithOrder) {
+		//TODO: recursive with parts
 		this.soldWithOrder = soldWithOrder;
 	}
 	

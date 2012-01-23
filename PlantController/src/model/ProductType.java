@@ -12,16 +12,15 @@ import model.relations.*;
  *
  */
 public class ProductType extends Part {
-	private int assemblyTime;
 	
 	private ArrayList<ProductTypeOrder> orders = new ArrayList<ProductTypeOrder>();
-	private ArrayList<ProductPart> madeFrom = new ArrayList<ProductPart>();
+	private ArrayList<AssemblyStep> assemblySteps = new ArrayList<AssemblyStep>();
+	private int lastSerialNumber = 0;
 	/**
 	 * @param inStock
 	 */
-	public ProductType(String name, int inStock, int assemblyTime) {
-		super(name, inStock);
-		this.assemblyTime = assemblyTime;
+	public ProductType(String name) {
+		super(name);
 	}
 
 	/**
@@ -29,30 +28,24 @@ public class ProductType extends Part {
 	 * @return
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	public boolean add(ProductPart e) {
-		return madeFrom.add(e);
+	public boolean add(AssemblyStep e) {
+		return assemblySteps.add(e);
 	}
 	
-	public void addProductPart(Part part, int amount) {
-		ProductPart pp = new ProductPart(this, part, amount);
+	public void addAssemblyStep(Part part, int amount, int assemblyTime) {
+		AssemblyStep pp = new AssemblyStep(this, part, amount, assemblyTime);
 		this.add(pp);
 	}
-
+	public int getNewSerialNumber() {
+		return lastSerialNumber++;
+	}
 	/**
 	 * @param o
 	 * @return
 	 * @see java.util.ArrayList#remove(java.lang.Object)
 	 */
 	public boolean remove(Object o) {
-		return madeFrom.remove(o);
-	}
-
-	public int getAssemblyTime() {
-		return assemblyTime;
-	}
-
-	public void setAssemblyTime(int assemblyTime) {
-		this.assemblyTime = assemblyTime;
+		return assemblySteps.remove(o);
 	}
 	
 	public boolean add(ProductTypeOrder e) {
@@ -65,7 +58,7 @@ public class ProductType extends Part {
 	
 	public int amountForPart(Part part) {
 		int amount = 0;
-		for (ProductPart productPart : madeFrom) {
+		for (AssemblyStep productPart : assemblySteps) {
 			if(productPart.getPart().equals(part)) {
 				amount += productPart.getAmount();
 			}
@@ -74,17 +67,23 @@ public class ProductType extends Part {
 	}
 	
 	public int estimatedAssemblyTimeForAmount(int amount) {
-		return assemblyTime * amount;
+//		return assemblyTime * amount;
+		return 1337;
 	}
 	
 	@Override
 	public String toString() {
 		String result = "ProductType(" + getName() + ") parts:[\n";
-		for (ProductPart productPart : madeFrom) {
+		for (AssemblyStep productPart : assemblySteps) {
 			result += "\t" + productPart.getPart() + "\n";
 		}
 		result += "]\n";
 		return result;
 	}
+
+	public ArrayList<AssemblyStep> getAssemblySteps() {
+		return assemblySteps;
+	}
+	
 	
 }
