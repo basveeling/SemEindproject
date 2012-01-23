@@ -13,6 +13,17 @@ public class Robot extends Thread{
 	protected Robot nextRobot;
 	protected AssemblyStep assemblyStep;
 	protected Product syncProduct = null;
+	protected int id;
+	
+	
+	/**
+	 * 
+	 */
+	public Robot(int id) {
+		super();
+		this.id = id;
+		super.setName("Robot #"+id);
+	}
 	public void setAssemblyStep(AssemblyStep assemblyStep) {
 		this.assemblyStep = assemblyStep;
 	}
@@ -27,14 +38,20 @@ public class Robot extends Thread{
 					e.printStackTrace();
 				}
 			}
-			syncProduct = new Product(productType.getNewSerialNumber(), productType, null, null);
+			if(syncProduct == null) {
+				syncProduct = new Product(productType.getNewSerialNumber(), productType, null, null);
+				System.out.println("Robot #" + id + " got new request for("+ assemblyStep.getPart().getName() +") on pipeline.");
+			}
 			this.notifyAll();
 		}
+		
 	}
 	protected void setNextRobot(Robot robot) {
 		nextRobot = robot;
 	}
 	protected void performAssemblyStepFor(Product product) {
+
+		System.out.println("\tRobot #" + id +" performing assemblyStep [adding part " + assemblyStep.getPart().getName() + "]");
 		assemblyStep.performStep();
 		if(nextRobot != null) {
 			synchronized (nextRobot) {
@@ -45,11 +62,13 @@ public class Robot extends Thread{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					nextRobot.syncProduct = product;
 				}
+				nextRobot.syncProduct = product;
 				nextRobot.notifyAll();
 			}
 		} else {
+			System.out.println("AssemblyLine finished a product: " + product.getType().getName());
+			
 			product.getType().getPartBin().addOnePart();
 		}
 	}

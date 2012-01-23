@@ -30,7 +30,7 @@ public class AssemblyLine extends Thread{
 		this.idNumber = idNumber;
 	}
 	public void addRobot() {
-		robots.add(new Robot());
+		robots.add(new Robot(robots.size()));
 	}
 	
 	public ArrayList<ProductRun> getProductRuns() {
@@ -68,9 +68,8 @@ public class AssemblyLine extends Thread{
 		configForProductRun(productRun);
 		Robot firstRobot = robots.get(0);
 		for (int i = 0; i < productRun.getUnitsToProduce(); i++) {
-
+			System.out.println("AssemblyLine #" + this.getIdNumber() + " presenting new product("+productRun.getBuildsProduct().getName()+") on pipeline.");
 			firstRobot.addNewProduct();
-			System.out.println("AssemblyLine #" + this.getIdNumber() + " adding new product("+productRun.getBuildsProduct().getName()+") on pipeline.");
 			
 		}
 //		robots.get(0).performAssemblyStepFor(null); //Start assembly

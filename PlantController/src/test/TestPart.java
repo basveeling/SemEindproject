@@ -1,0 +1,29 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestPart {
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void testGetPartBin() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetPartBin() {
+		fail("Not yet implemented");
+	}
+
+}

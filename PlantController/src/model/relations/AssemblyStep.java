@@ -55,9 +55,14 @@ public class AssemblyStep {
 		this.part = part;
 	}
 	
+	public int getAssemblyTime() {
+		return assemblyTime;
+	}
+	public void setAssemblyTime(int assemblyTime) {
+		this.assemblyTime = assemblyTime;
+	}
 	public void performStep() {
 		part.getPartBin().takePart(amount);
-		System.out.println("Robot performing assemblyStep [adding part " + part.getName() + "]");
 		try {
 			Thread.sleep(assemblyTime * 1000);//000);
 		} catch (InterruptedException e) {

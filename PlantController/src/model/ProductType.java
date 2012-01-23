@@ -67,8 +67,21 @@ public class ProductType extends Part {
 	}
 	
 	public int estimatedAssemblyTimeForAmount(int amount) {
-//		return assemblyTime * amount;
-		return 1337;
+		int result = 0;
+		int timeForOneUnit = 0;
+		int slowestAssemblyTime = 0;
+		int assemblyStepsSize = assemblySteps.size();
+		for (AssemblyStep assemblyStep : assemblySteps) {
+			timeForOneUnit+= assemblyStep.getAssemblyTime();
+			if (slowestAssemblyTime <= assemblyStep.getAssemblyTime()) 
+				slowestAssemblyTime = assemblyStep.getAssemblyTime();
+		}
+		//TODO: hier pipeline berekening
+		if(amount > assemblyStepsSize) {
+			assemblyStepsSize += 1231231231; //predefined amount for the first steps
+			result+= (amount - assemblyStepsSize) * (slowestAssemblyTime);
+		}
+		return result;
 	}
 	
 	@Override
