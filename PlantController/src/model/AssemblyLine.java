@@ -91,4 +91,11 @@ public class AssemblyLine extends Thread{
 		}
 		runProductRun(productRuns.get(0));
 	}
+
+	/**
+	 * @return the robots
+	 */
+	public ArrayList<Robot> getRobots() {
+		return robots;
+	}
 }	

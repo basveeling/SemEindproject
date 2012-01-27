@@ -11,6 +11,8 @@ import model.relations.AssemblyStep;
  */
 public class Robot extends Thread{
 	protected Robot nextRobot;
+	
+
 	protected AssemblyStep assemblyStep;
 	protected Product syncProduct = null;
 	protected int id;
@@ -23,6 +25,16 @@ public class Robot extends Thread{
 		super();
 		this.id = id;
 		super.setName("Robot #"+id);
+	}
+	public int getRobotId(){
+		return id;
+	}
+	
+	/**
+	 * @return the assemblyStep
+	 */
+	public AssemblyStep getAssemblyStep() {
+		return assemblyStep;
 	}
 	public void setAssemblyStep(AssemblyStep assemblyStep) {
 		this.assemblyStep = assemblyStep;
@@ -45,6 +57,10 @@ public class Robot extends Thread{
 			this.notifyAll();
 		}
 		
+	}
+
+	public Robot getNextRobot() {
+		return nextRobot;
 	}
 	protected void setNextRobot(Robot robot) {
 		nextRobot = robot;
