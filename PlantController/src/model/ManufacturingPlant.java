@@ -42,7 +42,11 @@ public class ManufacturingPlant extends Thread {
 	}
 
 	public boolean addProductRun(ProductRun e) {
-		e.getAssemblyLine().addProductRun(e);
+		AssemblyLine line = e.getAssemblyLine();
+		synchronized (line) {
+			line.addProductRun(e);
+			line.notifyAll();
+		}
 		return productRuns.add(e);
 	}
 
@@ -68,6 +72,10 @@ public class ManufacturingPlant extends Thread {
 
 	public boolean addPart(Part e) {
 		return parts.add(e);
+	}
+	
+	public boolean addPartBin(PartBin e) {
+		return partBins.add(e);
 	}
 
 	public Product getFreeProductOfType(ProductType productType) {
