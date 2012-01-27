@@ -106,4 +106,11 @@ public class AssemblyLine extends Thread{
 			
 		} 
 	}
+
+	/**
+	 * @return the robots
+	 */
+	public ArrayList<Robot> getRobots() {
+		return robots;
+	}
 }	

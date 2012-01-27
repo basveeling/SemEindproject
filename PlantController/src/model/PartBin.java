@@ -73,15 +73,15 @@ public class PartBin {
 	/**
 	 * @return if PartBin is Empty or not
 	 */
-	public boolean isEmty(){
-		return false;
+	public boolean isEmpty(){
+		return containsAmount == 0;
 	}
 	
 	/**
 	 * @param part the part contained in this PartBin
 	 */
 	public void setPart(Part part){
-		
+		this.part = part;
 	}
 
 }
