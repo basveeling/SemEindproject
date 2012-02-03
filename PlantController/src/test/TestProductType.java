@@ -47,6 +47,7 @@ public class TestProductType {
 		testProductType.add(testAssemblyStep2);
 		
 		assertEquals("Result", 10, testProductType.amountForPart(testPart));
+		assertEquals("Result", 6, testProductType.amountForPart(testPart2));
 	}
 	@Test
 	public void estimatedAssemblyTimeForAmount(){

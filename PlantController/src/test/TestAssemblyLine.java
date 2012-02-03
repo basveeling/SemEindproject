@@ -38,7 +38,7 @@ public class TestAssemblyLine {
 	public void testaddProductRun() {
 		testProductRun = new ProductRun();
 		testAssemblyLine.addProductRun(testProductRun);
-		assertTrue(testAssemblyLine.getProductRuns().contains(testProductRun));		
+		assertTrue(testAssemblyLine.getProductRuns().contains(testProductRun));
 	}
 	@Test
 	public void testremoveProductRun() {
@@ -72,5 +72,9 @@ public class TestAssemblyLine {
 		assertEquals("Result", testAssemblyStep2, testAssemblyLine.getRobots().get(1).getAssemblyStep());
 		assertEquals("Result", testAssemblyLine.getRobots().get(1), testAssemblyLine.getRobots().get(0).getNextRobot());
 		assertEquals("Result", null, testAssemblyLine.getRobots().get(1).getNextRobot());
+	}
+	@Test
+	public void testrunProductRun(){
+		fail("Not yet implemented");
 	}
 }
