@@ -19,6 +19,7 @@ public class AssemblyLine extends Thread{
 	private ArrayList<Robot> robots = new ArrayList<Robot>();
 	public AssemblyLine(int idNumber) {
 		super();
+		setName("AssemblyLine #"+idNumber);
 		this.idNumber = idNumber;
 	}
 
@@ -72,6 +73,8 @@ public class AssemblyLine extends Thread{
 			firstRobot.addNewProduct();
 			
 		}
+		System.out.println("AssemblyLine #" + this.getIdNumber() + " is done with productRun for "+productRun.getUnitsToProduce()+"product("+productRun.getBuildsProduct().getName()+").");
+		
 //		robots.get(0).performAssemblyStepFor(null); //Start assembly
 	}
 	@Override
@@ -81,15 +84,27 @@ public class AssemblyLine extends Thread{
 		for (Robot robot : robots) {
 			robot.start();
 		}
-		while(productRuns.size() == 0) {
-			try {
-				Thread.sleep(1000 * 1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		int oldSize = 0;
+		//TODO: save shutdown assemblyline
+		while(true) {
+			synchronized (this) {
+				while(productRuns.size() == oldSize) {
+					try {
+						this.notifyAll();
+						this.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
 			}
-		}
-		runProductRun(productRuns.get(0));
+			if(productRuns.size() > oldSize) {
+				runProductRun(productRuns.get(0));
+			}
+			oldSize = productRuns.size();
+			
+		} 
 	}
 
 	/**

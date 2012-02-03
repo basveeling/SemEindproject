@@ -14,7 +14,7 @@ import model.relations.ProductTypeOrder;
  */
 public class ManufacturingPlantController {
 	public static int calculateProductsToProduceFor(ManufacturingPlant plant, ProductType productType) {
-		int result = -1 * productType.getInStock();
+		int result = 0;
 		ArrayList<Order> orders = plant.getOrders();
 		ArrayList<ProductTypeOrder> productTypes;
 		for (Order order : orders) {
@@ -23,16 +23,19 @@ public class ManufacturingPlantController {
 			}
 		}
 		result+= calculatePartsToBuyFor(plant, productType);
-		return result;
+		return result - productType.getInStock();
 	}
 	
 	public static int calculatePartsToBuyFor(ManufacturingPlant plant, Part part) {
-		int result = -1 * part.getInStock();
-		ArrayList<ProductType> productTypes = plant.getProductTypes();
-		for (ProductType productType : productTypes) {
-			if(!productType.equals(part) && productType.amountForPart(part) > 0) {
-				result += calculateProductsToProduceFor(plant, productType) * productType.amountForPart(part);
+		int result = 0;
+		if(plant.getParts().contains(part)) {
+			ArrayList<ProductType> productTypes = plant.getProductTypes();
+			for (ProductType productType : productTypes) {
+				if(!productType.equals(part) && productType.amountForPart(part) > 0) {
+					result += calculateProductsToProduceFor(plant, productType) * productType.amountForPart(part);
+				}
 			}
+			result-=part.getInStock();
 		}
 		return result;
 	}

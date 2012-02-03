@@ -48,14 +48,14 @@ public class Fixtures {
 	public static AssemblyLine line4;
 	
 	public static void addFixtures(ManufacturingPlant newPlant) {
-		bin1 = new PartBin(1,100);
-		bin2 = new PartBin(2,100);
-		bin3 = new PartBin(3,100);
-		bin4 = new PartBin(4,100);
-		bin5 = new PartBin(5,100);
-		bin6 = new PartBin(6,100);
-		bin7 = new PartBin(7,100);
-		bin8 = new PartBin(8,100);
+		bin1 = new PartBin(1,0);
+		bin2 = new PartBin(2,0);
+		bin3 = new PartBin(3,0);
+		bin4 = new PartBin(4,0);
+		bin5 = new PartBin(5,0);
+		bin6 = new PartBin(6,0);
+		bin7 = new PartBin(7,0);
+		bin8 = new PartBin(8,0);
 		bin9 = new PartBin(9,0);
 		bin10 = new PartBin(10,0);
 		
@@ -83,9 +83,12 @@ public class Fixtures {
 		muis = new ProductType("Laptop Muis");
 		muis.setPartBin(bin9);
 		muis.addAssemblyStep(muissensor, 2, 1);
-		muis.addAssemblyStep(muiswiel, 1, 1);
-		muis.addAssemblyStep(usbsnoer, 1, 1);
-		muis.addAssemblyStep(knop, 3, 1);
+		muis.addAssemblyStep(muiswiel, 1, 5);
+		muis.addAssemblyStep(usbsnoer, 1, 3);
+		muis.addAssemblyStep(knop, 3, 6);
+//		muis.addAssemblyStep(stekkersnoer, 3, 2);
+//		muis.addAssemblyStep(electrospoel, 2, 1);
+//		muis.addAssemblyStep(laser, 1, 5);
 		
 		oplader = new ProductType("Oplader");
 		oplader.setPartBin(bin10);
@@ -115,6 +118,19 @@ public class Fixtures {
 		plant.addPart(electrospoel);
 		plant.addPart(lichtsensor);
 		plant.addPart(laser);
+
+		plant.addPartBin(bin1);
+		plant.addPartBin(bin2);
+		plant.addPartBin(bin3);
+		plant.addPartBin(bin4);
+		plant.addPartBin(bin5);
+		plant.addPartBin(bin6);
+		plant.addPartBin(bin7);
+		plant.addPartBin(bin8);
+		plant.addPartBin(bin9);
+		plant.addPartBin(bin10);
+		plant.addPartBin(bin11);
+		plant.addPartBin(bin12);
 		
 		plant.addProductType(muis);
 		plant.addProductType(oplader);

@@ -58,9 +58,9 @@ public class ProductType extends Part {
 	
 	public int amountForPart(Part part) {
 		int amount = 0;
-		for (AssemblyStep productPart : assemblySteps) {
-			if(productPart.getPart().equals(part)) {
-				amount += productPart.getAmount();
+		for (AssemblyStep assemblyStep : assemblySteps) {
+			if(assemblyStep.getPart().equals(part)) {
+				amount += assemblyStep.getAmount();
 			}
 		}
 		return amount;
@@ -73,13 +73,16 @@ public class ProductType extends Part {
 		int assemblyStepsSize = assemblySteps.size();
 		for (AssemblyStep assemblyStep : assemblySteps) {
 			timeForOneUnit+= assemblyStep.getAssemblyTime();
-			if (slowestAssemblyTime <= assemblyStep.getAssemblyTime()) 
+			if(slowestAssemblyTime <= assemblyStep.getAssemblyTime()) 
 				slowestAssemblyTime = assemblyStep.getAssemblyTime();
 		}
 		//TODO: hier pipeline berekening
-		if(amount > assemblyStepsSize) {
-			assemblyStepsSize += 1231231231; //predefined amount for the first steps
-			result+= (amount - assemblyStepsSize) * (slowestAssemblyTime);
+		if(amount > 0) {
+			result+= timeForOneUnit;
+		}
+		if(amount > 1) {
+			amount-=1;
+			result+= (amount) * (slowestAssemblyTime);
 		}
 		return result;
 	}
