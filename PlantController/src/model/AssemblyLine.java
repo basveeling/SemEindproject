@@ -39,9 +39,7 @@ public class AssemblyLine extends Thread{
 	}
 
 	public boolean addProductRun(ProductRun e) {
-
 		return productRuns.add(e);
-
 	}
 
 	public boolean removeProductRun(Object o) {

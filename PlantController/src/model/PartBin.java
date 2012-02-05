@@ -15,6 +15,7 @@ public class PartBin {
 
 	/**
 	 * @param number
+	 * @require containsAmount >= 0
 	 */
 	public PartBin(int number, int containsAmount) {
 		super();
@@ -42,10 +43,15 @@ public class PartBin {
 		return containsAmount;
 	}
 
+	/**
+	 * @require containsAmount >= 0
+	 */
 	public void setContainsAmount(int containsAmount) {
 		this.containsAmount = containsAmount;
 	}
-	
+	/**
+	 * @require this.containsAmount >= 1
+	 */
 	public void takeOnePart() {
 		takePart(1);
 	}
@@ -58,6 +64,9 @@ public class PartBin {
 		addPart(1);
 	}
 	
+	/**
+	 * @require amount <= this.containsAmount
+	 */
 	public void takePart(int amount) {
 		this.containsAmount = this.containsAmount - amount;
 	}

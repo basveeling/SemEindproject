@@ -24,7 +24,9 @@ public class TestOrder {
 
 	@Test
 	public void testamountForProductType() {
-		fail("Not yet implemented");
+		ProductType testPT = new ProductType("testPT");
+		testOrder.addProductTypeOrder(testPT, 10);
+		assertEquals("Result", 10, testOrder.amountForProductType(testPT));
 	}
 	@Test
 	public void testadd() {
@@ -38,7 +40,4 @@ public class TestOrder {
 		testOrder.remove(testProductTypeOrder);
 		assertTrue(!testOrder.getProductTypes().contains(testProductTypeOrder));
 	}
-	
-	
-
 }

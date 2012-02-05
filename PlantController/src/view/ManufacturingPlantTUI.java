@@ -29,7 +29,7 @@ public class ManufacturingPlantTUI {
 	 */
 	public ManufacturingPlantTUI() {
 		super();
-		this.plant = new ManufacturingPlant("UseCase Industries");
+		this.plant = new ManufacturingPlant();
 
 		Fixtures.addFixtures(plant);
 		plant.start();

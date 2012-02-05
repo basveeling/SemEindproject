@@ -13,7 +13,7 @@ public class TestManufacturingPlant {
 	
 	@Before
 	public void setUp() throws Exception {
-		testMP = new ManufacturingPlant("test");
+		testMP = new ManufacturingPlant();
 	}
 
 	@After
@@ -33,10 +33,10 @@ public class TestManufacturingPlant {
 	public void testgetFreeProductOfTypeOrder() {
 		ProductRun testPR = new ProductRun();
 		ProductType testPT = new ProductType("testPT");
-		Product testP = new Product(1337, testPT, testPR, null);
+		Order testO = new Order(0, "testO");
+		Product testP = new Product(1337, testPT, testPR, testO);
 		testMP.addProduct(testP);
-		assertEquals("Result", testP, testMP.getFreeProductOfType(null));		
-		fail("productType wordt niet gebruikt");
+		assertEquals("Result", null, testMP.getFreeProductOfType(testPT));
 	}	
 	
 	@Test
@@ -44,8 +44,8 @@ public class TestManufacturingPlant {
 		ProductRun testPR = new ProductRun();
 		ProductType testPT = new ProductType("testPT");
 		Product testP = new Product(1337, testPT, testPR, null);
-		assertEquals("Result", null, testMP.getFreeProductOfType(null));		
-		fail("productType wordt niet gebruikt");
+		testMP.addProduct(testP);
+		assertEquals("Result", testP, testMP.getFreeProductOfType(testPT));
 	}
 	
 }

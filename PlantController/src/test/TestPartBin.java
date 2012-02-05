@@ -41,6 +41,12 @@ public class TestPartBin {
 		assertEquals("Result", 6, testPartBin.getContainsAmount());
 	}
 	@Test
+	public void testtakePartteveel() {
+		testPartBin.setContainsAmount(10);
+		testPartBin.takePart(20);
+		assertEquals("Result", -10, testPartBin.getContainsAmount());
+	}
+	@Test
 	public void testisEmtyempty() {
 		assertTrue(testPartBin.isEmpty());
 	}

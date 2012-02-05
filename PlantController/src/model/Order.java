@@ -30,7 +30,7 @@ public class Order {
 	}
 
 	public void setFinshed(){
-		
+		//TODO 
 	}
 	
 	public int amountForProductType(ProductType type) {

@@ -45,12 +45,7 @@ public class TestAssemblyLine {
 		testAssemblyLine.removeProductRun(testProductRun);
 		assertTrue(!testAssemblyLine.getProductRuns().contains(testProductRun));		
 	}
-	@Test
-	public void testremoveProductRunNotExist() {
-		ProductRun testProductRun2 = new ProductRun();
-		testAssemblyLine.removeProductRun(testProductRun2);
-		assertTrue(!testAssemblyLine.getProductRuns().contains(testProductRun2));		
-	}
+
 	
 	@Test	
 	public void testconfigForProductRun() {
@@ -75,6 +70,6 @@ public class TestAssemblyLine {
 	}
 	@Test
 	public void testrunProductRun(){
-		fail("Not yet implemented");
+		fail("nog niet geimplementeerd");
 	}
 }
