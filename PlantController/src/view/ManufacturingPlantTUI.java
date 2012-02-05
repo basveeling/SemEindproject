@@ -146,7 +146,13 @@ public class ManufacturingPlantTUI {
 				System.out.println(ManufacturingPlantController.overviewOfAssemblyLines(plant));
 				assemblyLineIndex = leesInt("AssemblyLine:");
 				if(assemblyLineIndex > 0 && assemblyLineIndex <= plant.getAssemblyLines().size()) {
-					productRun.setAssemblyLine(plant.getAssemblyLines().get(assemblyLineIndex -1));
+					AssemblyLine assemblyLine = plant.getAssemblyLines().get(assemblyLineIndex -1);
+					if(!assemblyLine.isOccupied()) {
+						productRun.setAssemblyLine(assemblyLine);
+					} else {
+						System.out.println("This assemblyLine is currently occupied, try again.");
+						assemblyLineIndex = 0;
+					}
 				} else {
 					assemblyLineIndex = 0;
 				}

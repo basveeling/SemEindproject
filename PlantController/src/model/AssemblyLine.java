@@ -34,7 +34,9 @@ public class AssemblyLine extends Thread{
 	public void addRobot() {
 		robots.add(new Robot(robots.size()));
 	}
-	
+	public boolean isOccupied() {
+		return currentProductRun != null;
+	}
 	public ProductRun getCurrentProductRun() {
 		return currentProductRun;
 	}
@@ -64,7 +66,7 @@ public class AssemblyLine extends Thread{
 			robot.setAssemblyStep(assemblyStep);
 			robot.setNextRobot(null);//Reset nextRobot
 			if(i > 0) {
-				robots.get(i - 1).setNextRobot(robot);//setNextRobot for the previous rebot to this one
+				robots.get(i - 1).setNextRobot(robot);//setNextRobot for the previous robot to this one
 			}
 			i++;
 		}
@@ -77,15 +79,18 @@ public class AssemblyLine extends Thread{
 			firstRobot.addNewProduct();
 		}
 		System.out.println("AssemblyLine #" + this.getIdNumber() + " is done with productRun for "+productRun.getUnitsToProduce()+"product("+productRun.getBuildsProduct().getName()+").");
+		//TODO: find a way to be 100% sure the last robot is finished with the last product
+		synchronized (this) {
+			currentProductRun = null;
+			this.notifyAll();
+		}
 	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		// TODO: hier code die tijd checkt en productRun's start!
 		for (Robot robot : robots) {
 			robot.start();
 		}
-		int oldSize = 0;
 		//TODO: save shutdown assemblyline
 		while(true) {
 			synchronized (this) {

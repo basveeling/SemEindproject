@@ -21,23 +21,23 @@ public class ManufacturingPlantController {
 				result += order.amountForProductType(productType);
 			}
 		}
-		result+= calculatePartsToBuyFor(plant, productType);
+		result+= calculatePartsRequired(plant, productType);
 		return result - productType.getInStock();
 	}
-	
-	public static int calculatePartsToBuyFor(ManufacturingPlant plant, Part part) {
+	public static int calculatePartsRequired(ManufacturingPlant plant, Part part) {
 		int result = 0;
-//		if(plant.getParts().contains(part)) {
-			ArrayList<ProductType> productTypes = plant.getProductTypes();
-			for (ProductType productType : productTypes) {
-				if(!productType.equals(part) && productType.amountForPart(part) > 0) {
-					result += calculateProductsToProduceFor(plant, productType) * productType.amountForPart(part);
-				}
+		ArrayList<ProductType> productTypes = plant.getProductTypes();
+		for (ProductType productType : productTypes) {
+			if(!productType.equals(part) && productType.amountForPart(part) > 0) {
+				result += calculateProductsToProduceFor(plant, productType) * productType.amountForPart(part);
 			}
-			result-=part.getInStock();
-//		}
+		}
 		return result;
 	}
+	public static int calculatePartsToBuyFor(ManufacturingPlant plant, Part part) {
+		return calculatePartsRequired(plant, part) - part.getInStock();
+	}
+	
 	public static String productTypesToString(ManufacturingPlant plant) {
 		return plant.getProductTypes().toString();
 	}

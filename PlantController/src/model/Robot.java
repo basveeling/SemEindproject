@@ -12,7 +12,7 @@ import model.relations.AssemblyStep;
 public class Robot extends Thread{
 	protected Robot nextRobot;
 	
-
+	
 	protected AssemblyStep assemblyStep;
 	protected Product syncProduct = null;
 	protected int id;
@@ -82,7 +82,7 @@ public class Robot extends Thread{
 				nextRobot.syncProduct = product;
 				nextRobot.notifyAll();
 			}
-		} else {
+		} else { //last robot in line, finish product
 			System.out.println("AssemblyLine finished a product: " + product.getType().getName());
 			
 			product.getType().getPartBin().addOnePart();
@@ -92,7 +92,9 @@ public class Robot extends Thread{
 	public void setProduct(Product product) {
 		this.syncProduct = product;
 	}
-
+	public boolean isBusy() {
+		return syncProduct != null;
+	}
 	@Override
 	public void run() {
 		super.run();
@@ -107,8 +109,8 @@ public class Robot extends Thread{
 				}
 				if(syncProduct != null) {
 					newProduct = syncProduct;
-					syncProduct = null;
 					performAssemblyStepFor(newProduct);
+					syncProduct = null;
 				}
 				this.notifyAll();
 			}
