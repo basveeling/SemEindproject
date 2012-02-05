@@ -135,8 +135,8 @@ public class Fixtures {
 		plant.addProductType(muis);
 		plant.addProductType(oplader);
 		plant.addProductType(muissensor);
-		plant.addOrder(order1);
-		plant.addOrder(order2);
+//		plant.addOrder(order1);
+//		plant.addOrder(order2);
 		plant.addOrder(order3);
 		plant.addAssemblyLine(line1);
 		for (int i = 0; i < 20; i++) {

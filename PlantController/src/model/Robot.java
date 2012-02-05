@@ -86,6 +86,7 @@ public class Robot extends Thread{
 			System.out.println("AssemblyLine finished a product: " + product.getType().getName());
 			
 			product.getType().getPartBin().addOnePart();
+			ManufacturingPlant.getInstance().addProduct(product);
 		}
 	}
 	

@@ -5,24 +5,23 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.Order;
-import model.ProductRun;
-import model.ProductType;
-import model.relations.ProductTypeOrder;
+import model.*;
+import model.relations.*;
 
 /**
  * @author bas
  *
  */
 public class ProductRunController {
-//	public static boolean allPartsAvailable(ProductRun run) {
-//		ArrayList<AssemblyStep> assemblySteps = run.getBuildsProduct().getAssemblySteps();
-//		for (AssemblyStep as : assemblySteps) {
-//			ProductType productType = pto.getProductType();
-//			if(productType.getInStock() < pto.getAmount()) { //er is minder beschikbaar dan er besteld is bij deze order
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
+	public static boolean allPartsAvailable(ProductRun run) {
+		//TODO: als twee assemblySteps de zelfde part gebruiken, wordt deze functie niet goed berekend.
+		ArrayList<AssemblyStep> assemblySteps = run.getBuildsProduct().getAssemblySteps();
+		for (AssemblyStep as : assemblySteps) {
+			Part part = as.getPart();
+			if(part.getInStock() < (as.getAmount() * run.getUnitsToProduce())) { //er is minder beschikbaar dan er nodig is
+				return false;
+			}
+		}
+		return true;
+	}
 }
