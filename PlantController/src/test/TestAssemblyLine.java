@@ -34,19 +34,7 @@ public class TestAssemblyLine {
 		assertEquals("Result", 2, testAssemblyLine.getRobots().get(2).getRobotId());
 	}
 	
-	@Test
-	public void testaddProductRun() {
-		testProductRun = new ProductRun();
-		testAssemblyLine.addProductRun(testProductRun);
-		assertTrue(testAssemblyLine.getProductRuns().contains(testProductRun));
-	}
-	@Test
-	public void testremoveProductRun() {
-		testAssemblyLine.removeProductRun(testProductRun);
-		assertTrue(!testAssemblyLine.getProductRuns().contains(testProductRun));		
-	}
 
-	
 	@Test	
 	public void testconfigForProductRun() {
 		ProductType testProductType = new ProductType("testProductType");		

@@ -93,7 +93,8 @@ public class Order {
 	public String toString() {
 		String result = "Order(" + getOrderId() + ") | state: " + getStateToString() + " | products:\n";
 		for (ProductTypeOrder productTypeOrder : productTypes) {
-			result += "\t" + productTypeOrder.getProductType().getName() + " | amount: " + productTypeOrder.getAmount() + "\n";
+			result += "\t" + productTypeOrder.getProductType().getName() + " | amount: " + productTypeOrder.getAmount() + 
+					" | in stock: " + productTypeOrder.getProductType().getInStock() + "\n";
 		}
 //		result += "\n";
 		return result;

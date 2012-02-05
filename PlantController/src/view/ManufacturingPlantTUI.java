@@ -95,9 +95,10 @@ public class ManufacturingPlantTUI {
 		public void execute(int state, String par1, String par2) {
 			String orderId = leesRegel("Give Order ID (string): ");
 			Order newOrder = new Order(0, orderId);
-			plant.addOrder(newOrder);
+			
 			
 			boolean addingProducts = true;
+			boolean productAdded = false;
 			while(addingProducts) {
 				System.out.println("ProductTypes: ");
 				for(int i = 0; i < plant.getProductTypes().size(); i++) {
@@ -107,11 +108,17 @@ public class ManufacturingPlantTUI {
 				if(productIndex > 0 && productIndex <= plant.getProductTypes().size()) {
 					int amount = leesInt("Aantal:");
 					newOrder.addProductTypeOrder(plant.getProductTypes().get(productIndex -1), amount);
+					productAdded = true;
 				} else {
 					addingProducts = false;
 				}
 			}
-			System.out.println("Order placed: " + newOrder);
+			if(productAdded){
+				plant.addOrder(newOrder);
+				System.out.println("Order placed: " + newOrder);
+			}else{
+				System.out.println("Order without products not allowed!");
+			}
 		}
 	}
 	/**
@@ -215,14 +222,18 @@ public class ManufacturingPlantTUI {
 			if(OrderController.allPartsAvailable(order)) { // check met 
 				//TODO: dit naar order verplaatsen
 				Product tempProduct;
+				String lijst = "Serialnumbers:\n";
 				for (ProductTypeOrder pto : order.getProductTypes()) {
+					lijst += pto.getProductType().getName() + ":\n";
 					for(int i = 0; i < pto.getAmount(); i++) {
 						tempProduct = plant.getFreeProductOfType(pto.getProductType());
 						tempProduct.setSoldWithOrder(order);
 						pto.getProductType().getPartBin().takeOnePart();
+						lijst += tempProduct.getSerialNumber() + ", ";
 					}
 				}
 				order.setFinshed();
+				System.out.println(lijst);
 			} else {
 				System.out.println("Inventory not sufficient.");
 			}
@@ -303,9 +314,11 @@ public class ManufacturingPlantTUI {
 
 		String result = null;
 		System.out.print("" + prompt + " ");
-		if (sc.hasNextLine()) {
-			result = sc.nextLine();
-			result = result.equals("") ? null : result;
+		while(result == null || result.equals("")){
+			if (sc.hasNextLine()) {
+				result = sc.nextLine();
+				result = result.equals("") ? null : result;
+			}
 		}
 		// System.out.println();
 		return result;
@@ -320,13 +333,18 @@ public class ManufacturingPlantTUI {
 	 */
 	public static int leesInt(String prompt) {
 
-		int result;
+		int result = -1;
 		System.out.print("\n" + prompt + " ");
-		while(!sc.hasNextInt()) {
-			System.out.print("Ongeldige invoer, probeer opnieuw: ");
-			sc.next();
+		while(result<0){
+			while(!sc.hasNextInt()) {
+				System.out.print("Ongeldige invoer, probeer opnieuw: ");
+				sc.next();
+			}
+			result = sc.nextInt();
+			if(result<0){
+				System.out.println("Alleen positieve getallen:");
+			}
 		}
-		result = sc.nextInt();
 		return result;
 	}
 
