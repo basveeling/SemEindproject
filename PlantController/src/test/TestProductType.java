@@ -53,7 +53,4 @@ public class TestProductType {
 	public void estimatedAssemblyTimeForAmount(){
 		fail("Not yet implemented");
 	}
-	
-	
-
 }

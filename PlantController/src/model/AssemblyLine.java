@@ -15,7 +15,8 @@ import model.relations.AssemblyStep;
 public class AssemblyLine extends Thread{
 	private int idNumber;
 
-	private ArrayList<ProductRun> productRuns = new ArrayList<ProductRun>();
+//	private ArrayList<ProductRun> productRuns = new ArrayList<ProductRun>();
+	private ProductRun currentProductRun = null;
 	private ArrayList<Robot> robots = new ArrayList<Robot>();
 	public AssemblyLine(int idNumber) {
 		super();
@@ -34,17 +35,23 @@ public class AssemblyLine extends Thread{
 		robots.add(new Robot(robots.size()));
 	}
 	
-	public ArrayList<ProductRun> getProductRuns() {
-		return productRuns;
+	public ProductRun getCurrentProductRun() {
+		return currentProductRun;
 	}
 
-	public boolean addProductRun(ProductRun e) {
-		return productRuns.add(e);
+
+	public boolean setProductRun(ProductRun run) {
+		boolean result = false;
+		synchronized (this) {
+			if(currentProductRun == null) {
+				currentProductRun = run;
+				result = true;
+			}
+			this.notifyAll();
+		}
+		return result;
 	}
 
-	public boolean removeProductRun(Object o) {
-		return productRuns.remove(o);
-	}
 	/**
 	 * @require robots.size() >= productRun.getBuildsProduct().assemblySteps.size()
 	 * @param productRun
@@ -69,11 +76,8 @@ public class AssemblyLine extends Thread{
 		for (int i = 0; i < productRun.getUnitsToProduce(); i++) {
 			System.out.println("AssemblyLine #" + this.getIdNumber() + " presenting new product("+productRun.getBuildsProduct().getName()+") on pipeline.");
 			firstRobot.addNewProduct();
-			
 		}
 		System.out.println("AssemblyLine #" + this.getIdNumber() + " is done with productRun for "+productRun.getUnitsToProduce()+"product("+productRun.getBuildsProduct().getName()+").");
-		
-//		robots.get(0).performAssemblyStepFor(null); //Start assembly
 	}
 	@Override
 	public void run() {
@@ -86,7 +90,7 @@ public class AssemblyLine extends Thread{
 		//TODO: save shutdown assemblyline
 		while(true) {
 			synchronized (this) {
-				while(productRuns.size() == oldSize) {
+				while(currentProductRun == null) {
 					try {
 						this.notifyAll();
 						this.wait();
@@ -94,14 +98,11 @@ public class AssemblyLine extends Thread{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
 				}
 			}
-			if(productRuns.size() > oldSize) {
-				runProductRun(productRuns.get(0));
+			if(currentProductRun != null) {
+				runProductRun(currentProductRun);
 			}
-			oldSize = productRuns.size();
-			
 		} 
 	}
 

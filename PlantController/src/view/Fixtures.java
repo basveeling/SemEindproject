@@ -82,7 +82,7 @@ public class Fixtures {
 		
 		muis = new ProductType("Laptop Muis");
 		muis.setPartBin(bin9);
-		muis.addAssemblyStep(muissensor, 2, 1);
+		muis.addAssemblyStep(muissensor, 1, 1);
 		muis.addAssemblyStep(muiswiel, 1, 5);
 		muis.addAssemblyStep(usbsnoer, 1, 3);
 		muis.addAssemblyStep(knop, 3, 6);
@@ -146,11 +146,13 @@ public class Fixtures {
 		for (int i = 0; i < 10; i++) {
 			line2.addRobot();
 		}
-		plant.addAssemblyLine(line3);for (int i = 0; i < 5; i++) {
-			line2.addRobot();
+		plant.addAssemblyLine(line3);
+		for (int i = 0; i < 5; i++) {
+			line3.addRobot();
 		}
-		plant.addAssemblyLine(line4);for (int i = 0; i < 1; i++) {
-			line2.addRobot();
+		plant.addAssemblyLine(line4);
+		for (int i = 0; i < 1; i++) {
+			line4.addRobot();
 		}
 	}
 	

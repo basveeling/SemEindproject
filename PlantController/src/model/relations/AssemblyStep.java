@@ -64,7 +64,7 @@ public class AssemblyStep {
 	public void performStep() {
 		part.getPartBin().takePart(amount);
 		try {
-			Thread.sleep(assemblyTime * 1000);//000);
+			Thread.sleep(assemblyTime * 1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
