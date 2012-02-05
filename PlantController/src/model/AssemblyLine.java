@@ -35,7 +35,15 @@ public class AssemblyLine extends Thread{
 		robots.add(new Robot(robots.size()));
 	}
 	public boolean isOccupied() {
-		return currentProductRun != null;
+		return currentProductRun != null && robotsBusy();
+	}
+	
+	public boolean robotsBusy() {
+		for (Robot robot : robots) {
+			if(robot.isBusy()) 
+				return true;
+		}
+		return false;
 	}
 	public ProductRun getCurrentProductRun() {
 		return currentProductRun;
@@ -45,7 +53,7 @@ public class AssemblyLine extends Thread{
 	public boolean setProductRun(ProductRun run) {
 		boolean result = false;
 		synchronized (this) {
-			if(currentProductRun == null) {
+			if(currentProductRun == null && !isOccupied()) {
 				currentProductRun = run;
 				result = true;
 			}
@@ -62,6 +70,7 @@ public class AssemblyLine extends Thread{
 		ArrayList<AssemblyStep> assemblySteps = productRun.getBuildsProduct().getAssemblySteps();
 		assert(robots.size() >= assemblySteps.size());
 		int i = 0;
+		//TODO: check of assemblysteps <= robots.size()
 		for (AssemblyStep assemblyStep : assemblySteps) {
 			Robot robot = robots.get(i);
 			robot.setAssemblyStep(assemblyStep);
@@ -79,7 +88,10 @@ public class AssemblyLine extends Thread{
 			System.out.println("AssemblyLine #" + this.getIdNumber() + " presenting new product("+productRun.getBuildsProduct().getName()+") on pipeline.");
 			firstRobot.addNewProduct();
 		}
-		System.out.println("AssemblyLine #" + this.getIdNumber() + " is done with productRun for "+productRun.getUnitsToProduce()+"product("+productRun.getBuildsProduct().getName()+").");
+	}
+	
+	public void setFinished() {
+		System.out.println("AssemblyLine #" + this.getIdNumber() + " is done with productRun for "+currentProductRun.getUnitsToProduce()+" products of type "+currentProductRun.getBuildsProduct().getName()+".");
 		//TODO: find a way to be 100% sure the last robot is finished with the last product
 		synchronized (this) {
 			currentProductRun = null;
@@ -90,12 +102,13 @@ public class AssemblyLine extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		for (Robot robot : robots) {
+			robot.setAssemblyLine(this);
 			robot.start();
 		}
 		//TODO: save shutdown assemblyline
 		while(true) {
 			synchronized (this) {
-				while(currentProductRun == null) {
+				while(currentProductRun == null || robotsBusy()) {
 					try {
 						this.notifyAll();
 						this.wait();
@@ -105,7 +118,7 @@ public class AssemblyLine extends Thread{
 					}
 				}
 			}
-			if(currentProductRun != null) {
+			if(currentProductRun != null && !isOccupied()) {
 				runProductRun(currentProductRun);
 			}
 		} 
@@ -116,5 +129,9 @@ public class AssemblyLine extends Thread{
 	 */
 	public ArrayList<Robot> getRobots() {
 		return robots;
+	}
+
+	public boolean hasEnoughRobotsFor(ProductType buildsProduct) {
+		return buildsProduct.getAssemblySteps().size() <= robots.size();
 	}
 }	

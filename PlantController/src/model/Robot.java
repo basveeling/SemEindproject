@@ -11,8 +11,7 @@ import model.relations.AssemblyStep;
  */
 public class Robot extends Thread{
 	protected Robot nextRobot;
-	
-	
+	protected AssemblyLine assemblyLine;
 	protected AssemblyStep assemblyStep;
 	protected Product syncProduct = null;
 	protected int id;
@@ -30,6 +29,13 @@ public class Robot extends Thread{
 		return id;
 	}
 	
+	
+	public AssemblyLine getAssemblyLine() {
+		return assemblyLine;
+	}
+	public void setAssemblyLine(AssemblyLine assemblyLine) {
+		this.assemblyLine = assemblyLine;
+	}
 	/**
 	 * @return the assemblyStep
 	 */
@@ -84,9 +90,12 @@ public class Robot extends Thread{
 			}
 		} else { //last robot in line, finish product
 			System.out.println("AssemblyLine finished a product: " + product.getType().getName());
-			
 			product.getType().getPartBin().addOnePart();
 			ManufacturingPlant.getInstance().addProduct(product);
+			syncProduct = null;
+			if(!assemblyLine.isOccupied()) {
+				assemblyLine.setFinished();
+			}
 		}
 	}
 	

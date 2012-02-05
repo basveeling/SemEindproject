@@ -107,8 +107,10 @@ public class ManufacturingPlantTUI {
 				if(productIndex > 0 && productIndex <= plant.getProductTypes().size()) {
 					int amount = leesInt("Aantal:");
 					newOrder.addProductTypeOrder(plant.getProductTypes().get(productIndex -1), amount);
-				} else {
+				} else if (productIndex == 0)  {
 					addingProducts = false;
+				} else {
+					System.out.println("Ongeldig product nummer, probeer opnieuw.");
 				}
 			}
 			System.out.println("Order placed: " + newOrder);
@@ -142,6 +144,7 @@ public class ManufacturingPlantTUI {
 			productRun.setUnitsToProduce(amount);
 			if(ProductRunController.allPartsAvailable(productRun)) {
 				System.out.println("Estimated assemblytime is " + productRun.getBuildsProduct().estimatedAssemblyTimeForAmount(amount));
+				System.out.println("Required robots is " + productRun.getBuildsProduct().getAssemblySteps().size());
 				
 				int assemblyLineIndex = 0;
 				while(assemblyLineIndex == 0) {
@@ -151,11 +154,18 @@ public class ManufacturingPlantTUI {
 					if(assemblyLineIndex > 0 && assemblyLineIndex <= plant.getAssemblyLines().size()) {
 						AssemblyLine assemblyLine = plant.getAssemblyLines().get(assemblyLineIndex -1);
 						if(!assemblyLine.isOccupied()) {
-							productRun.setAssemblyLine(assemblyLine);
+							if(assemblyLine.hasEnoughRobotsFor(productRun.getBuildsProduct())) {
+								productRun.setAssemblyLine(assemblyLine);
+							} else {
+								System.out.println("This assemblyLine doesn't have enough robots to produce this productType.");
+								assemblyLineIndex = 0;
+							}
 						} else {
 							System.out.println("This assemblyLine is currently occupied, try again.");
 							assemblyLineIndex = 0;
 						}
+						
+						
 					} else {
 						assemblyLineIndex = 0;
 					}

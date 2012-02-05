@@ -79,7 +79,11 @@ public class ManufacturingPlantController {
 			}else{
 				occupied = "[free]";
 			}
-			result += "#" + (assemblyLines.indexOf(assemblyLine) + 1) + " Assemblyline: " + assemblyLine.getIdNumber() + " " + occupied + "\n";
+			result += "#" + (assemblyLines.indexOf(assemblyLine) + 1) + 
+					" Assemblyline: " + assemblyLine.getIdNumber() 
+					+ " Robots: " + assemblyLine.getRobots().size()
+					+ " " + occupied
+					+ "\n";
 		}
 		return result;
 	}
