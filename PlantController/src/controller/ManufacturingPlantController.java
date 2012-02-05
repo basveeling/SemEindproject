@@ -35,7 +35,14 @@ public class ManufacturingPlantController {
 		return result;
 	}
 	public static int calculatePartsToBuyFor(ManufacturingPlant plant, Part part) {
-		return calculatePartsRequired(plant, part) - part.getInStock();
+		int toBuy = calculatePartsRequired(plant, part) - part.getInStock();
+		if(toBuy<0){
+			return 0;
+		}
+		else{
+			return toBuy;
+		}		
+		//return calculatePartsRequired(plant, part) - part.getInStock();
 	}
 	
 	public static String productTypesToString(ManufacturingPlant plant) {
