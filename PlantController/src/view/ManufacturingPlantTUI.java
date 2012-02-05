@@ -213,10 +213,10 @@ public class ManufacturingPlantTUI {
 		}
 		
 		public void execute(int state, String par1, String par2) {
-			int orderIndex = 0;
+			int orderIndex = -1;
 			Order order = null;
-			while(orderIndex == 0) {
-				System.out.println("Choose an order: ");
+			while(orderIndex == -1) {
+				System.out.println("Choose an order (0 to cancel): ");
 				System.out.println(ManufacturingPlantController.overviewOfOrders(plant));
 				orderIndex = leesInt("Select order #:");
 				if(orderIndex > 0 && orderIndex <= plant.getOrders().size()) {
@@ -225,10 +225,13 @@ public class ManufacturingPlantTUI {
 						 orderIndex = 0;	
 						 System.out.println("Order has been shipped already");
 					 }
+				} else if (orderIndex == 0) {
+					break;
 				} else {
-					orderIndex = 0;
+					orderIndex = -1;
 				}
 			}
+			if(orderIndex != 0) {
 			if(OrderController.allPartsAvailable(order)) { // check met 
 				//TODO: dit naar order verplaatsen
 				Product tempProduct;
@@ -247,40 +250,10 @@ public class ManufacturingPlantTUI {
 			} else {
 				System.out.println("Inventory not sufficient.");
 			}
+			}
 		}
 	}
-	
-//	public class FinishProductRunCommand extends Command {
-//		public FinishProductRunCommand() {
-//			super('o', 0, "Set a productrun as finished");
-//		}
-//		
-//		public void execute(int state, String par1, String par2) {
-//			int productRunIndex = 0;
-//			ProductRun productRun = null;
-//			while(productRunIndex == 0) {
-//				//TODO: add check
-//				System.out.println("Choose an product run: ");
-//				System.out.println(ManufacturingPlantController.overviewOfUnfinishedProductRuns(plant));
-//				productRunIndex = leesInt("Select productrun #:");
-//				if(productRunIndex > 0 && productRunIndex <= plant.getProductRuns().size()) {
-//					productRun = plant.getProductRuns().get(productRunIndex - 1);
-//				} else {
-//					productRunIndex = 0;
-//				}
-//			}
-//			int serialnumber;
-//			serialnumber = leesInt("Choose a starting serialnumber for " + productRun.getBuildsProduct().getName() + ":");
-//			Product tempProduct;
-//			for(int i = 0; i < productRun.getUnitsToProduce(); i++) {
-//				tempProduct = new Product((serialnumber + i), productRun.getBuildsProduct(), productRun, null);
-//				plant.addProduct(tempProduct);
-//				productRun.addProduct(tempProduct);
-//			}
-//			productRun.setFinished(1);
-//		}
-//	}
-	
+
 	public class AddPartsCommand extends Command {
 		public AddPartsCommand() {
 			super('a', 0, "Add a part");
