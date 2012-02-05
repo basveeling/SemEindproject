@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import controller.ManufacturingPlantController;
 import controller.OrderController;
+import controller.ProductRunController;
 
 import model.*;
 import model.relations.*;
@@ -139,27 +140,31 @@ public class ManufacturingPlantTUI {
 			}
 			int amount = leesInt("Units to produce:");
 			productRun.setUnitsToProduce(amount);
-			System.out.println("Estimated assemblytime is " + productRun.getBuildsProduct().estimatedAssemblyTimeForAmount(amount));
-			
-			int assemblyLineIndex = 0;
-			while(assemblyLineIndex == 0) {
-				System.out.println("Choose AssemblyLine: ");
-				System.out.println(ManufacturingPlantController.overviewOfAssemblyLines(plant));
-				assemblyLineIndex = leesInt("AssemblyLine:");
-				if(assemblyLineIndex > 0 && assemblyLineIndex <= plant.getAssemblyLines().size()) {
-					AssemblyLine assemblyLine = plant.getAssemblyLines().get(assemblyLineIndex -1);
-					if(!assemblyLine.isOccupied()) {
-						productRun.setAssemblyLine(assemblyLine);
+			if(ProductRunController.allPartsAvailable(productRun)) {
+				System.out.println("Estimated assemblytime is " + productRun.getBuildsProduct().estimatedAssemblyTimeForAmount(amount));
+				
+				int assemblyLineIndex = 0;
+				while(assemblyLineIndex == 0) {
+					System.out.println("Choose AssemblyLine: ");
+					System.out.println(ManufacturingPlantController.overviewOfAssemblyLines(plant));
+					assemblyLineIndex = leesInt("AssemblyLine:");
+					if(assemblyLineIndex > 0 && assemblyLineIndex <= plant.getAssemblyLines().size()) {
+						AssemblyLine assemblyLine = plant.getAssemblyLines().get(assemblyLineIndex -1);
+						if(!assemblyLine.isOccupied()) {
+							productRun.setAssemblyLine(assemblyLine);
+						} else {
+							System.out.println("This assemblyLine is currently occupied, try again.");
+							assemblyLineIndex = 0;
+						}
 					} else {
-						System.out.println("This assemblyLine is currently occupied, try again.");
 						assemblyLineIndex = 0;
 					}
-				} else {
-					assemblyLineIndex = 0;
 				}
+				System.out.println("ProductRun created: " + productRun);
+				plant.addProductRun(productRun);
+			} else {
+				System.out.println("Niet genoeg parts beschikbaar, bestel meer parts");
 			}
-			System.out.println("ProductRun created: " + productRun);
-			plant.addProductRun(productRun);
 		}
 	}
 
@@ -199,6 +204,10 @@ public class ManufacturingPlantTUI {
 				orderIndex = leesInt("Select order #:");
 				if(orderIndex > 0 && orderIndex <= plant.getOrders().size()) {
 					 order = plant.getOrders().get(orderIndex - 1);
+					 if(order.getState() != Order.STATE_PLACED) {
+						 orderIndex = 0;	
+						 System.out.println("Order has been shipped already");
+					 }
 				} else {
 					orderIndex = 0;
 				}
@@ -213,6 +222,7 @@ public class ManufacturingPlantTUI {
 						pto.getProductType().getPartBin().takeOnePart();
 					}
 				}
+				order.setFinshed();
 			} else {
 				System.out.println("Inventory not sufficient.");
 			}

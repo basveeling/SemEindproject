@@ -53,7 +53,7 @@ public class ManufacturingPlantController {
 		ArrayList<Part> parts = plant.getParts();
 		for (Part part : parts) {
 				result +=  "#" + (parts.indexOf(part) +1)  + " Part: " + part.getName() + 
-					" | To buy: " + calculatePartsToBuyFor(plant, part) + "\n";
+					" | To buy: " + calculatePartsToBuyFor(plant, part) + " | in stock: " + part.getInStock() + "\n";
 		}
 		return result;
 	}
@@ -63,20 +63,23 @@ public class ManufacturingPlantController {
 		ArrayList<ProductType> productTypes = plant.getProductTypes();
 		for (ProductType productType : productTypes) {
 			result += "#" + (productTypes.indexOf(productType) + 1) + " Product: " + productType.getName() + 
-					" | To produce: " + calculateProductsToProduceFor(plant, productType) + "\n";
+					" | To produce: " + calculateProductsToProduceFor(plant, productType) + " | in stock: " + productType.getInStock() + "\n";
 		}
 		return result;
 	}
 
 	
 	public static String overviewOfAssemblyLines(ManufacturingPlant plant) {
-		String result = "==AssemblyLines:==\n";
+		String result = "==Assemblylines:==\n";
 		ArrayList<AssemblyLine> assemblyLines = plant.getAssemblyLines();
 		for (AssemblyLine assemblyLine : assemblyLines) {
+			String occupied;
 			if(assemblyLine.isOccupied()){
-				
+				occupied = "[occupied]";
+			}else{
+				occupied = "[free]";
 			}
-			result += "#" + (assemblyLines.indexOf(assemblyLine) + 1) + " Assemblyline: " + assemblyLine.getIdNumber() + "\n";
+			result += "#" + (assemblyLines.indexOf(assemblyLine) + 1) + " Assemblyline: " + assemblyLine.getIdNumber() + " " + occupied + "\n";
 		}
 		return result;
 	}

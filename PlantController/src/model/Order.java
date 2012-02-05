@@ -31,6 +31,7 @@ public class Order {
 
 	public void setFinshed(){
 		//TODO 
+		this.state = STATE_SHIPPED;
 	}
 	
 	public int amountForProductType(ProductType type) {
@@ -61,6 +62,20 @@ public class Order {
 	public int getState() {
 		return state;
 	}
+	
+	public String getStateToString() {
+		String result = null;
+		switch (state) {
+		case STATE_PLACED:
+			result = "placed";
+			break;
+
+		case STATE_SHIPPED:
+			result = "shipped";
+			break;
+		}
+		return result;
+	}
 
 	public void setState(int state) {
 		this.state = state;
@@ -76,7 +91,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		String result = "Order(" + getOrderId() + ") | state: " + getState() + " | products:\n";
+		String result = "Order(" + getOrderId() + ") | state: " + getStateToString() + " | products:\n";
 		for (ProductTypeOrder productTypeOrder : productTypes) {
 			result += "\t" + productTypeOrder.getProductType().getName() + " | amount: " + productTypeOrder.getAmount() + "\n";
 		}
