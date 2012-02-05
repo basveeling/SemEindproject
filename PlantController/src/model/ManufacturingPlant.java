@@ -11,6 +11,7 @@ import java.util.Iterator;
  * 
  */
 public class ManufacturingPlant extends Thread {
+	private static ManufacturingPlant instance = null;
 	private String plantName;
 	private ArrayList<Part> parts = new ArrayList<Part>();
 	private ArrayList<ProductType> productTypes = new ArrayList<ProductType>();
@@ -20,9 +21,15 @@ public class ManufacturingPlant extends Thread {
 	private ArrayList<Order> orders = new ArrayList<Order>();
 	private ArrayList<AssemblyLine> assemblyLines = new ArrayList<AssemblyLine>();
 
-	public ManufacturingPlant(String name) {
+	public ManufacturingPlant() {
 		super();
-		this.plantName = name;
+	}
+	
+	public static ManufacturingPlant getInstance() {
+	    if (instance == null) {
+	        instance = new ManufacturingPlant();
+	    }
+	    return instance;
 	}
 
 	public String getPlantName() {
@@ -80,7 +87,7 @@ public class ManufacturingPlant extends Thread {
 
 	public Product getFreeProductOfType(ProductType productType) {
 		for (Product product : products) {
-			if (product.getSoldWithOrder() == null) {
+			if (product.getSoldWithOrder() == null && product.getType() == productType) {
 				return product;
 			}
 		}
