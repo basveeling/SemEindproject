@@ -76,7 +76,6 @@ public class ProductType extends Part {
 			if(slowestAssemblyTime <= assemblyStep.getAssemblyTime()) 
 				slowestAssemblyTime = assemblyStep.getAssemblyTime();
 		}
-		//TODO: hier pipeline berekening
 		if(amount > 0) {
 			result+= timeForOneUnit;
 		}

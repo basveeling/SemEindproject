@@ -4,9 +4,11 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import controller.ManufacturingPlantController;
+import controller.OrderController;
 
 import model.*;
 import model.relations.*;
@@ -29,7 +31,8 @@ public class ManufacturingPlantTUI {
 	 */
 	public ManufacturingPlantTUI() {
 		super();
-		this.plant = new ManufacturingPlant("UseCase Industries");
+		this.plant = ManufacturingPlant.getInstance();
+		plant.setPlantName("UseCase Industries");
 
 		Fixtures.addFixtures(plant);
 		plant.start();
@@ -40,7 +43,7 @@ public class ManufacturingPlantTUI {
 		commands.add(new CreateProductRunCommand());
 		commands.add(new OrderOverviewCommand());
 		commands.add(new FinishOrderCommand());
-		commands.add(new FinishProductRunCommand());
+		commands.add(new AddPartsCommand());
 		commands.get(0).execute(0 ,null, null);
 
 	}
@@ -173,7 +176,6 @@ public class ManufacturingPlantTUI {
 			int orderIndex = 0;
 			Order order = null;
 			while(orderIndex == 0) {
-				//TODO: add check
 				System.out.println("Choose an order: ");
 				System.out.println(ManufacturingPlantController.overviewOfOrders(plant));
 				orderIndex = leesInt("Select order #:");
@@ -183,49 +185,81 @@ public class ManufacturingPlantTUI {
 					orderIndex = 0;
 				}
 			}
-			//TODO: dit naar order verplaatsen
-			Product tempProduct;
-			for (ProductTypeOrder pto : order.getProductTypes()) {
-				for(int i = 0; i < pto.getAmount(); i++) {
-					tempProduct = plant.getFreeProductOfType(pto.getProductType());
-					tempProduct.setSoldWithOrder(order);
-					pto.getProductType().getPartBin().takeOnePart();
+			if(OrderController.allPartsAvailable(order)) { // check met 
+				//TODO: dit naar order verplaatsen
+				Product tempProduct;
+				for (ProductTypeOrder pto : order.getProductTypes()) {
+					for(int i = 0; i < pto.getAmount(); i++) {
+						tempProduct = plant.getFreeProductOfType(pto.getProductType());
+						tempProduct.setSoldWithOrder(order);
+						pto.getProductType().getPartBin().takeOnePart();
+					}
 				}
+			} else {
+				System.out.println("Inventory not sufficient.");
 			}
 		}
 	}
 	
-	public class FinishProductRunCommand extends Command {
-		public FinishProductRunCommand() {
-			super('a', 0, "Set a productrun as finished");
+//	public class FinishProductRunCommand extends Command {
+//		public FinishProductRunCommand() {
+//			super('o', 0, "Set a productrun as finished");
+//		}
+//		
+//		public void execute(int state, String par1, String par2) {
+//			int productRunIndex = 0;
+//			ProductRun productRun = null;
+//			while(productRunIndex == 0) {
+//				//TODO: add check
+//				System.out.println("Choose an product run: ");
+//				System.out.println(ManufacturingPlantController.overviewOfUnfinishedProductRuns(plant));
+//				productRunIndex = leesInt("Select productrun #:");
+//				if(productRunIndex > 0 && productRunIndex <= plant.getProductRuns().size()) {
+//					productRun = plant.getProductRuns().get(productRunIndex - 1);
+//				} else {
+//					productRunIndex = 0;
+//				}
+//			}
+//			int serialnumber;
+//			serialnumber = leesInt("Choose a starting serialnumber for " + productRun.getBuildsProduct().getName() + ":");
+//			Product tempProduct;
+//			for(int i = 0; i < productRun.getUnitsToProduce(); i++) {
+//				tempProduct = new Product((serialnumber + i), productRun.getBuildsProduct(), productRun, null);
+//				plant.addProduct(tempProduct);
+//				productRun.addProduct(tempProduct);
+//			}
+//			productRun.setFinished(1);
+//		}
+//	}
+	
+	public class AddPartsCommand extends Command {
+		public AddPartsCommand() {
+			super('a', 0, "Add a part");
 		}
 		
 		public void execute(int state, String par1, String par2) {
-			int productRunIndex = 0;
-			ProductRun productRun = null;
-			while(productRunIndex == 0) {
+			
+			int partIndex = 0;
+			Part part = null;
+			while(partIndex == 0) {
 				//TODO: add check
-				System.out.println("Choose an product run: ");
-				System.out.println(ManufacturingPlantController.overviewOfUnfinishedProductRuns(plant));
-				productRunIndex = leesInt("Select productrun #:");
-				if(productRunIndex > 0 && productRunIndex <= plant.getProductRuns().size()) {
-					productRun = plant.getProductRuns().get(productRunIndex - 1);
+				System.out.println("Choose a part: ");
+				System.out.println(ManufacturingPlantController.overviewOfPartsToProduce(plant));
+				partIndex = leesInt("Select part #:");
+				if(partIndex > 0 && partIndex <= plant.getParts().size()) {
+					part = plant.getParts().get(partIndex - 1);
 				} else {
-					productRunIndex = 0;
+					partIndex = 0;
 				}
 			}
-			int serialnumber;
-			serialnumber = leesInt("Choose a starting serialnumber for " + productRun.getBuildsProduct().getName() + ":");
-			Product tempProduct;
-			for(int i = 0; i < productRun.getUnitsToProduce(); i++) {
-				tempProduct = new Product((serialnumber + i), productRun.getBuildsProduct(), productRun, null);
-				plant.addProduct(tempProduct);
-				productRun.addProduct(tempProduct);
+			int amount = -1; 
+			while(!part.getPartBin().addPart(amount)) {
+				amount = leesInt("Aantal:");
 			}
-			productRun.setFinished(1);
+			System.out.println(amount + " Units of " + part + "have been added to " + part.getPartBin());
+			
 		}
 	}
-
 
 	
 	
@@ -258,12 +292,13 @@ public class ManufacturingPlantTUI {
 	 */
 	public static int leesInt(String prompt) {
 
-		int result = 0;
+		int result;
 		System.out.print("\n" + prompt + " ");
-		if (sc.hasNextLine()) {
-			result = sc.nextInt();
+		while(!sc.hasNextInt()) {
+			System.out.print("Ongeldige invoer, probeer opnieuw: ");
+			sc.next();
 		}
-		// System.out.println();
+		result = sc.nextInt();
 		return result;
 	}
 

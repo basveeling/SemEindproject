@@ -5,10 +5,10 @@ package model;
 
 /**
  * @author Patrick
- *
+ * 
  */
 public class PartBin {
-	
+
 	private int number;
 	private Part part;
 	private int containsAmount;
@@ -30,14 +30,13 @@ public class PartBin {
 	}
 
 	/**
-	 * @param number the number to set
+	 * @param number
+	 *            the number to set
 	 */
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	
-	
-	
+
 	public int getContainsAmount() {
 		return containsAmount;
 	}
@@ -45,23 +44,30 @@ public class PartBin {
 	public void setContainsAmount(int containsAmount) {
 		this.containsAmount = containsAmount;
 	}
-	
+
 	public void takeOnePart() {
 		takePart(1);
 	}
-	
-	public void addPart(int amount) {
-		this.containsAmount = this.containsAmount + amount;
+
+	public boolean addPart(int amount) {
+		if (amount >= 0) {
+			this.containsAmount = this.containsAmount + amount;
+			return true;
+		}
+		return false;
 	}
-	
+
 	public void addOnePart() {
 		addPart(1);
 	}
-	
-	public void takePart(int amount) {
-		this.containsAmount = this.containsAmount - amount;
-	}
 
+	public boolean takePart(int amount) {
+		if (amount >= 0) {
+			this.containsAmount = this.containsAmount - amount;
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * @return the part
@@ -73,15 +79,21 @@ public class PartBin {
 	/**
 	 * @return if PartBin is Empty or not
 	 */
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return containsAmount == 0;
 	}
-	
+
 	/**
-	 * @param part the part contained in this PartBin
+	 * @param part
+	 *            the part contained in this PartBin
 	 */
-	public void setPart(Part part){
+	public void setPart(Part part) {
 		this.part = part;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "PartBin #" + number;
+		
+	}
 }

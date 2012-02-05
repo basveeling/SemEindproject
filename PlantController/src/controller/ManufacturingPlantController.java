@@ -16,7 +16,6 @@ public class ManufacturingPlantController {
 	public static int calculateProductsToProduceFor(ManufacturingPlant plant, ProductType productType) {
 		int result = 0;
 		ArrayList<Order> orders = plant.getOrders();
-		ArrayList<ProductTypeOrder> productTypes;
 		for (Order order : orders) {
 			if(order.getState() == Order.STATE_PLACED) {
 				result += order.amountForProductType(productType);
@@ -28,7 +27,7 @@ public class ManufacturingPlantController {
 	
 	public static int calculatePartsToBuyFor(ManufacturingPlant plant, Part part) {
 		int result = 0;
-		if(plant.getParts().contains(part)) {
+//		if(plant.getParts().contains(part)) {
 			ArrayList<ProductType> productTypes = plant.getProductTypes();
 			for (ProductType productType : productTypes) {
 				if(!productType.equals(part) && productType.amountForPart(part) > 0) {
@@ -36,7 +35,7 @@ public class ManufacturingPlantController {
 				}
 			}
 			result-=part.getInStock();
-		}
+//		}
 		return result;
 	}
 	public static String productTypesToString(ManufacturingPlant plant) {
@@ -45,7 +44,12 @@ public class ManufacturingPlantController {
 	
 	public static String overviewOfUnitsToProduce(ManufacturingPlant plant) {
 		String result = overviewOfProductsProduce(plant);
-		result += "==Parts:==\n";
+		result += overviewOfPartsToProduce(plant);
+		return result;
+	}
+	
+	public static String overviewOfPartsToProduce(ManufacturingPlant plant) {
+		String result = "==Parts:==\n";
 		ArrayList<Part> parts = plant.getParts();
 		for (Part part : parts) {
 				result +=  "#" + (parts.indexOf(part) +1)  + " Part: " + part.getName() + 
@@ -63,6 +67,7 @@ public class ManufacturingPlantController {
 		}
 		return result;
 	}
+
 	
 	public static String overviewOfAssemblyLines(ManufacturingPlant plant) {
 		String result = "==AssemblyLines:==\n";

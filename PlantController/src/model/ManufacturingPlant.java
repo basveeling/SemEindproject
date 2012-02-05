@@ -50,10 +50,7 @@ public class ManufacturingPlant extends Thread {
 
 	public boolean addProductRun(ProductRun e) {
 		AssemblyLine line = e.getAssemblyLine();
-		synchronized (line) {
-			line.addProductRun(e);
-			line.notifyAll();
-		}
+		line.setProductRun(e);
 		return productRuns.add(e);
 	}
 
