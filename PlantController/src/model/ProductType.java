@@ -56,6 +56,11 @@ public class ProductType extends Part {
 		return orders.remove(arg0);
 	}
 	
+	/**
+	 * Returns the required amount of parts of type part to build one instance of this ProductType
+	 * @param part
+	 * @return
+	 */
 	public int amountForPart(Part part) {
 		int amount = 0;
 		for (AssemblyStep assemblyStep : assemblySteps) {
@@ -66,11 +71,15 @@ public class ProductType extends Part {
 		return amount;
 	}
 	
+	/**
+	 * Gives an estimated assemblyTime for assembling an amount of products of this ProductType on a pipeline
+	 * @param amount
+	 * @return estimated time in seconds
+	 */
 	public int estimatedAssemblyTimeForAmount(int amount) {
 		int result = 0;
 		int timeForOneUnit = 0;
 		int slowestAssemblyTime = 0;
-		int assemblyStepsSize = assemblySteps.size();
 		for (AssemblyStep assemblyStep : assemblySteps) {
 			timeForOneUnit+= assemblyStep.getAssemblyTime();
 			if(slowestAssemblyTime <= assemblyStep.getAssemblyTime()) 

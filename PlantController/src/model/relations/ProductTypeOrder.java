@@ -1,7 +1,11 @@
 package model.relations;
 
 import model.*;
-
+/**
+ * Models the relationship between orders and producttypes. Holds a certain amount.
+ * @author bas
+ *
+ */
 public class ProductTypeOrder {
 	private int amount;
 	private ProductType productType;

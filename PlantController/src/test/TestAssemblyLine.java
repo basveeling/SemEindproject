@@ -11,11 +11,10 @@ import org.junit.Test;
 public class TestAssemblyLine {
 	
 	private AssemblyLine testAssemblyLine;
-	private ProductRun testProductRun;
 
 	@Before
 	public void setUp() throws Exception {
-		testAssemblyLine= new AssemblyLine(1337);
+		testAssemblyLine= new AssemblyLine(10);
 	}
 
 	@After
@@ -55,9 +54,5 @@ public class TestAssemblyLine {
 		assertEquals("Result", testAssemblyStep2, testAssemblyLine.getRobots().get(1).getAssemblyStep());
 		assertEquals("Result", testAssemblyLine.getRobots().get(1), testAssemblyLine.getRobots().get(0).getNextRobot());
 		assertEquals("Result", null, testAssemblyLine.getRobots().get(1).getNextRobot());
-	}
-	@Test
-	public void testrunProductRun(){
-		fail("nog niet geimplementeerd");
 	}
 }

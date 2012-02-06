@@ -40,30 +40,15 @@ public class Part {
 	}
 
 	/**
+	 * Puts this part in partBin
 	 * @param partBin the partBin to set
+	 * @ensure partBin.part = this
 	 */
 	public void setPartBin(PartBin partBin) {
 		this.partBin = partBin;
 		partBin.setPart(this);
 	}
 
-	/**
-	 * @param arg0
-	 * @return
-	 * @see java.util.ArrayList#add(java.lang.Object)
-	 */
-	public boolean add(AssemblyStep arg0) {
-		return productType.add(arg0);
-	}
-
-	/**
-	 * @param arg0
-	 * @return
-	 * @see java.util.ArrayList#remove(java.lang.Object)
-	 */
-	public boolean remove(Object arg0) {
-		return productType.remove(arg0);
-	}
 
 	public String getName() {
 		return name;

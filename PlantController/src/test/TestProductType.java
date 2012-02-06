@@ -49,8 +49,5 @@ public class TestProductType {
 		assertEquals("Result", 10, testProductType.amountForPart(testPart));
 		assertEquals("Result", 6, testProductType.amountForPart(testPart2));
 	}
-	@Test
-	public void estimatedAssemblyTimeForAmount(){
-		fail("Not yet implemented");
-	}
+
 }

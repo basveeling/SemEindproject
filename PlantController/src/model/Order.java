@@ -29,11 +29,19 @@ public class Order {
 		OrderId = orderId;
 	}
 
+	/**
+	 * Set this order as shipped
+	 */
 	public void setFinshed(){
-		//TODO 
 		this.state = STATE_SHIPPED;
 	}
 	
+	
+	/**
+	 * Returns the amount for the producttype type for this order
+	 * @param type
+	 * @return
+	 */
 	public int amountForProductType(ProductType type) {
 		int amount = 0;
 		for (ProductTypeOrder pto : getProductTypes()) {
@@ -96,7 +104,15 @@ public class Order {
 			result += "\t" + productTypeOrder.getProductType().getName() + " | amount: " + productTypeOrder.getAmount() + 
 					" | in stock: " + productTypeOrder.getProductType().getInStock() + "\n";
 		}
-//		result += "\n";
 		return result;
+	}
+	
+	/**
+	 * Checks if this order already has a ProductTypeOrder for this ProductType
+	 * @param type
+	 * @return true if productTypes
+	 */
+	public boolean hasPTOForProductType(ProductType type) {
+		return productTypes.contains(type);
 	}
 }

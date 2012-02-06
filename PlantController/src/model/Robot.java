@@ -7,7 +7,7 @@ import model.relations.AssemblyStep;
 
 /**
  * @author bas
- *
+ * A class that models a robot that can perform an assemblyStep. Extends a Thread to run autonomous. Is coupled to a assemblyline
  */
 public class Robot extends Thread{
 	protected Robot nextRobot;
@@ -36,15 +36,18 @@ public class Robot extends Thread{
 	public void setAssemblyLine(AssemblyLine assemblyLine) {
 		this.assemblyLine = assemblyLine;
 	}
-	/**
-	 * @return the assemblyStep
-	 */
+
 	public AssemblyStep getAssemblyStep() {
 		return assemblyStep;
 	}
 	public void setAssemblyStep(AssemblyStep assemblyStep) {
 		this.assemblyStep = assemblyStep;
 	}
+	
+	/**
+	 * Start a new product on the assemblyLine. Add's a unique serial number to the unfinished product.
+	 * @require this.id = 0 (this is the first robot in line)
+	 */
 	protected void addNewProduct() {
 		ProductType productType = assemblyStep.getProductType();
 		synchronized (this) {
@@ -64,15 +67,23 @@ public class Robot extends Thread{
 		}
 		
 	}
-
+	/**
+	 * Returns the next robot on the assemblyLine
+	 * @return next robot on the assemblyLine, null if last robot
+	 */
 	public Robot getNextRobot() {
 		return nextRobot;
 	}
 	protected void setNextRobot(Robot robot) {
 		nextRobot = robot;
 	}
+	
+	/**
+	 * Perform assemblyStep on this robot, push product to next robot after. If this is the last robot in line, finish product and add to stock
+	 * @param product
+	 * @require product != null
+	 */
 	protected void performAssemblyStepFor(Product product) {
-
 		System.out.println("\tRobot #" + id +" performing assemblyStep [adding part " + assemblyStep.getPart().getName() + "]");
 		assemblyStep.performStep();
 		if(nextRobot != null) {
@@ -105,6 +116,10 @@ public class Robot extends Thread{
 	public boolean isBusy() {
 		return syncProduct != null;
 	}
+	
+	/**
+	 * Waits for a new product from the robot before or the assemblyline if first in line. 
+	 */
 	@Override
 	public void run() {
 		super.run();
@@ -114,7 +129,6 @@ public class Robot extends Thread{
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if(syncProduct != null) {
