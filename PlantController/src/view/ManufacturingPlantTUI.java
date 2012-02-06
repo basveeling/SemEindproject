@@ -49,7 +49,6 @@ public class ManufacturingPlantTUI {
 		commands.add(new FinishOrderCommand());
 		commands.add(new AddPartsCommand());
 		commands.get(0).execute(null, null);
-
 	}
 
 	// ================================

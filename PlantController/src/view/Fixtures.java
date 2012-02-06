@@ -86,9 +86,6 @@ public class Fixtures {
 		muis.addAssemblyStep(muiswiel, 1, 5);
 		muis.addAssemblyStep(usbsnoer, 1, 3);
 		muis.addAssemblyStep(knop, 3, 6);
-//		muis.addAssemblyStep(stekkersnoer, 3, 2);
-//		muis.addAssemblyStep(electrospoel, 2, 1);
-//		muis.addAssemblyStep(laser, 1, 5);
 		
 		oplader = new ProductType("Oplader");
 		oplader.setPartBin(bin10);
@@ -155,6 +152,4 @@ public class Fixtures {
 			line4.addRobot();
 		}
 	}
-	
-	
 }
