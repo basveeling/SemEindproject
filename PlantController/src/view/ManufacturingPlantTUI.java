@@ -318,16 +318,16 @@ public class ManufacturingPlantTUI {
 
 		int result = -1;
 		System.out.print("\n" + prompt + " ");
-		while(result<0){
+//		while(result<0){
 			while(!sc.hasNextInt()) {
 				System.out.print("Ongeldige invoer, probeer opnieuw: ");
 				sc.next();
 			}
 			result = sc.nextInt();
-			if(result<0){
-				System.out.println("Alleen positieve getallen:");
-			}
-		}
+//			if(result<0){
+//				System.out.println("Alleen positieve getallen:");
+//			}
+//		}
 		return result;
 	}
 

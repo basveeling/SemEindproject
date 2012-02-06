@@ -13,5 +13,7 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>com.tssap.selena.model.modeling_nature</nature>
+		<nature>com.borland.selena.uml14.uml14_nature</nature>
 	</natures>
 </projectDescription>
