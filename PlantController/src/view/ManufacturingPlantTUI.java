@@ -4,15 +4,18 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import model.AssemblyLine;
+import model.ManufacturingPlant;
+import model.Order;
+import model.Part;
+import model.Product;
+import model.ProductRun;
+import model.relations.ProductTypeOrder;
 import controller.ManufacturingPlantController;
 import controller.OrderController;
 import controller.ProductRunController;
-
-import model.*;
-import model.relations.*;
 
 /**
  * @author bas
@@ -23,7 +26,6 @@ public class ManufacturingPlantTUI {
 	private ManufacturingPlant plant;
 	public boolean running = true;
 	private static Scanner sc = new Scanner(System.in);
-	private int state = 0;
 
 	private static ArrayList<Command> commands = new ArrayList<Command>();
 

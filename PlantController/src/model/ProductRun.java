@@ -3,11 +3,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-
-import model.relations.AssemblyStep;
-import model.relations.ProductTypeOrder;
-
 /**
  * @author bas
  * models a productRun with a product to build, an amount of products to build and an assemblyLine to build on

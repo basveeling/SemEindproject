@@ -3,9 +3,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-
-import model.relations.*;
 
 /**
  * @author Patrick
@@ -14,7 +11,6 @@ import model.relations.*;
 public class Part {
 	private String name;
 	private PartBin partBin;
-	private ArrayList<AssemblyStep> productType;
 	
 	/**
 	 * @param inStock

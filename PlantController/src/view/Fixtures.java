@@ -6,6 +6,7 @@ package view;
 import model.*;
 
 /**
+ * Test data voor het systeem
  * @author bas
  *
  */

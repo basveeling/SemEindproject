@@ -5,8 +5,12 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.*;
-import model.relations.ProductTypeOrder;
+import model.AssemblyLine;
+import model.ManufacturingPlant;
+import model.Order;
+import model.Part;
+import model.ProductRun;
+import model.ProductType;
 
 /**
  * @author bas

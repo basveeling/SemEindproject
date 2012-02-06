@@ -113,6 +113,11 @@ public class Order {
 	 * @return true if productTypes
 	 */
 	public boolean hasPTOForProductType(ProductType type) {
-		return productTypes.contains(type);
+		for (ProductTypeOrder pto : productTypes) {
+			if(pto.getProductType().equals(type)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
