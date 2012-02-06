@@ -4,7 +4,7 @@ import model.*;
 
 /**
  * @author Patrick
- *
+ * Models a assemblyStep for a productType that can be performed 
  */
 public class AssemblyStep {
 	
@@ -61,14 +61,18 @@ public class AssemblyStep {
 	public void setAssemblyTime(int assemblyTime) {
 		this.assemblyTime = assemblyTime;
 	}
+	
+	/**
+	 * Perform this assemblyStep, Sleeps for assemblyTime' seconds
+	 */
 	public void performStep() {
 		part.getPartBin().takePart(amount);
-		try {
-			Thread.sleep(assemblyTime * 1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} //Sleep for the required amount
+//		try {
+//			Thread.sleep(assemblyTime * 1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} //Sleep for the required amount
 	}
 	
 }

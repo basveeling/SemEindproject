@@ -9,10 +9,6 @@ package view;
  */
 
 public abstract class Command {
-
-	final static int STATE_MAIN = 0;
-	final static int STATE_PLACE_ORDER = 0;
-	
 	private char sign;
 	private int numberOfParameters;
 	private String description;
@@ -65,23 +61,19 @@ public abstract class Command {
 	 * @param par1 de eerste parameter van de aanroep, of null
 	 * @param par2 de tweede parameter van de aanroep, of null 
 	 */
-	public boolean canExecute(char sign, int state, String par1, String par2) {
+	public boolean canExecute(char sign, String par1, String par2) {
 		
-		return (checkState(state)) && (this.sign == sign) && (									//Kijk of teken gelijk is aan this.teken
+		return (this.sign == sign) && (									//Kijk of teken gelijk is aan this.teken
 				(getAantalPars() == 0 && par1 == null && par2 == null) ||	//Als dit commando 0 pars heeft, dan moeten par1 && par2 gelijk zijn aan null;
 				(getAantalPars() == 1 && par1 != null && par2 == null) ||   //Voor 1, moet par1 niet null en par2 null
 				(getAantalPars() == 2 && par1 != null && par2 != null));    //etc.
 	}
-	
-	public boolean checkState(int state) {
-		return (state == 0);
-	}
-	
+
 	/**
 	 * Voert dit commando uit, met gegeven parameters.
 	 * @param par1 de eerste parameter van de methode, of null
 	 * @param par2 de tweede parameter van de methode, of null
 	 * @require this.kanUitvoeren(this.teken(), par1, par2)
 	 */
-	public abstract void execute(int state, String par1, String par2);
+	public abstract void execute(String par1, String par2);
 }

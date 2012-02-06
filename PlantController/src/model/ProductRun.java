@@ -10,7 +10,7 @@ import model.relations.ProductTypeOrder;
 
 /**
  * @author bas
- *
+ * models a productRun with a product to build, an amount of products to build and an assemblyLine to build on
  */
 public class ProductRun{
 	private int startTime;
@@ -19,7 +19,6 @@ public class ProductRun{
 	private int finished;
 	private AssemblyLine runsOnAssemblyLine;
 	private ProductType buildsProduct;
-	private ArrayList<Product> producedProducts = new ArrayList<Product>();
 	
 	
 	
@@ -100,12 +99,5 @@ public class ProductRun{
 	public void setFinished(int finished) {
 		this.finished = finished;
 	}
-	public ArrayList<Product> getProducedProducts() {
-		return producedProducts;
-	}
-	public boolean addProduct(Product e) {
-		return producedProducts.add(e);
-	}
-	
 	
 }

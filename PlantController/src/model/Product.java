@@ -5,7 +5,7 @@ package model;
 
 /**
  * @author bas
- *
+ *	models an instance of a Product with a serialNumber
  */
 public class Product {
 	private int serialNumber;

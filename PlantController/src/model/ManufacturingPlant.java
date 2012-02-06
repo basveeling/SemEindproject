@@ -24,7 +24,10 @@ public class ManufacturingPlant extends Thread {
 	public ManufacturingPlant() {
 		super();
 	}
-	
+	/**
+	 * Singleton pattern Instance getter
+	 * @return instance of manufacturingPlant
+	 */
 	public static ManufacturingPlant getInstance() {
 	    if (instance == null) {
 	        instance = new ManufacturingPlant();
@@ -48,18 +51,17 @@ public class ManufacturingPlant extends Thread {
 		return products.add(e);
 	}
 
-	public boolean addProductRun(ProductRun e) {
-		AssemblyLine line = e.getAssemblyLine();
-		line.setProductRun(e);
-		return productRuns.add(e);
-	}
-
-	public Iterator<Order> ordersIterator() {
-		return orders.iterator();
-	}
-
-	public String ordersToString() {
-		return orders.toString();
+	/**
+	 * Adds a new prodcutRun to the assigned assemblyLine.
+	 * @param productRun
+	 * @require productRun.getAssemblyLine().isOccupied() == false
+	 * @ensure productRun.getAssemblyLine().getCurrentProductRun() == productRun
+	 * @return
+	 */
+	public boolean addProductRun(ProductRun productRun) {
+		AssemblyLine line = productRun.getAssemblyLine();
+		line.setProductRun(productRun);
+		return productRuns.add(productRun);
 	}
 
 	public boolean addProductType(ProductType e) {
@@ -82,6 +84,13 @@ public class ManufacturingPlant extends Thread {
 		return partBins.add(e);
 	}
 
+	/**
+	 * Retrieves a product of type productType that hasn't been sold with an order.
+	 * @param productType
+	 * @require producttType != null
+	 * @ensure return.productType == productType
+	 * @return a product or null in case there are no free products left
+	 */
 	public Product getFreeProductOfType(ProductType productType) {
 		for (Product product : products) {
 			if (product.getSoldWithOrder() == null && product.getType() == productType) {
@@ -123,6 +132,9 @@ public class ManufacturingPlant extends Thread {
 		return orders;
 	}
 
+	/**
+	 * Starts the assemblyLines
+	 */
 	@Override
 	public void run() {
 		for (AssemblyLine assemblyLine : assemblyLines) {
